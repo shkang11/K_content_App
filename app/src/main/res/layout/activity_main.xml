@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/sw1"
+            android:src="@drawable/ic_launcher_foreground"
             android:contentDescription="가나다"
             android:id="@+id/img1"/>
         <ImageView
