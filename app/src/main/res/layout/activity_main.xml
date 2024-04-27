@@ -59,6 +59,7 @@
 
     <android.widget.Button
         android:layout_width="218sp"
+        android:id="@+id/enrollBtn"
         android:layout_height="66sp"
         android:layout_marginTop="5sp"
         android:text="sign Up"
