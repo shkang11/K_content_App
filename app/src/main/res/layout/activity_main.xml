@@ -20,9 +20,9 @@
         android:textStyle="bold"/>
 
     <LinearLayout
+        android:background="@drawable/border"
         android:layout_width="322dp"
         android:layout_height="211dp"
-        android:background="#AEF1EFEF"
         android:orientation="vertical">
 
         <EditText
