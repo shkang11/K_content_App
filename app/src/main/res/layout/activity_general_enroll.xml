@@ -35,9 +35,10 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/email"
             android:layout_width="331dp"
             android:layout_height="57dp"
-            android:hint="예)dramalover" />
+            android:hint="예)dramalover@naver.com" />
 
     </LinearLayout>
 
@@ -57,6 +58,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/pwd"
             android:layout_width="331dp"
             android:layout_height="59dp"
             android:hint="영문 숫자조합 8~16자" />
@@ -103,6 +105,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/name"
             android:layout_width="331dp"
             android:layout_height="61dp"
             android:hint="예)홍길동" />
@@ -126,6 +129,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/age"
             android:layout_width="331dp"
             android:layout_height="59dp"
             android:hint="예)34" />
@@ -149,6 +153,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/gender"
             android:layout_width="331dp"
             android:layout_height="65dp"
             android:hint="예) 남" />
