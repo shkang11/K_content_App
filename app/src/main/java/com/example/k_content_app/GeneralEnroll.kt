@@ -21,6 +21,7 @@ class GeneralEnroll : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_general_enroll)
 
+
         // Firebase 초기화
         FirebaseApp.initializeApp(this)
 
@@ -31,26 +32,43 @@ class GeneralEnroll : AppCompatActivity() {
         enrollbtn.setOnClickListener {
             val emailId = findViewById(R.id.email) as EditText
             val passwordId = findViewById(R.id.pwd) as EditText
+            val checkPasswordId = findViewById(R.id.checkpwd) as EditText
+
             val email: String = emailId.text.toString()
             val password: String = passwordId.text.toString()
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success")
-                        val user = auth.currentUser
-                        updateUI(user)
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                        updateUI(null)
+            val checkPassword: String = checkPasswordId.text.toString()
+
+            if (password != checkPassword) {
+                // 비밀번호와 비밀번호 확인이 일치하지 않을 경우
+                Toast.makeText(
+                    baseContext,
+                    "비밀번호와 비밀번호 확인이 일치하지 않습니다.",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                // 비밀번호 입력란으로 포커스 이동
+                passwordId.requestFocus()
+            } else {
+                // 비밀번호와 비밀번호 확인이 일치할 경우
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            // 회원가입 성공
+                            Log.d(TAG, "createUserWithEmail:success")
+                            val user = auth.currentUser
+                            updateUI(user)
+                        } else {
+                            // 회원가입 실패
+                            Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                            Toast.makeText(
+                                baseContext,
+                                "Authentication failed.",
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                            updateUI(null)
+                        }
                     }
-                }
+            }
         }
     }
 

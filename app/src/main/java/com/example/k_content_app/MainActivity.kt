@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +17,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +35,30 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 파이어베이스 인증 객체 초기화
-        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
+        val loginBtn = findViewById<Button>(R.id.btn_login)
+        loginBtn.setOnClickListener {
+            val id = findViewById<EditText>(R.id.id_login).text.toString()
+            val password = findViewById<EditText>(R.id.pwd_login).text.toString()
+            auth.signInWithEmailAndPassword(id, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithEmail:success")
+                        val user = auth.currentUser
+                        updateUI(user)
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            baseContext,
+                            "Authentication failed.",
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                        updateUI(null)
+                    }
+                }
+        }
 
         val enrollBtn = findViewById<Button>(R.id.enrollBtn)
         enrollBtn?.setOnClickListener {
