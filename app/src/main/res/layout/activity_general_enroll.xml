@@ -155,11 +155,18 @@
             android:text="성별*"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/gender"
-            android:layout_width="331dp"
-            android:layout_height="65dp"
-            android:hint="예) 남" />
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="남"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="여"/>
+        </RadioGroup>
 
 
     </LinearLayout>
@@ -168,8 +175,8 @@
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/radius"
         android:text="등록하기"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -40,6 +40,14 @@ class MainActivity : AppCompatActivity() {
         loginBtn.setOnClickListener {
             val id = findViewById<EditText>(R.id.id_login).text.toString()
             val password = findViewById<EditText>(R.id.pwd_login).text.toString()
+            if (id.isBlank() || password.isBlank()) {
+                Toast.makeText(
+                    baseContext,
+                    "Please enter both ID and password.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
             auth.signInWithEmailAndPassword(id, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
