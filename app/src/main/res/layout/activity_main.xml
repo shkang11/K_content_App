@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:text="로그인"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="150sp"
-        android:layout_marginStart="30sp"
+        android:layout_marginBottom="150dp"
+        android:layout_marginStart="30dp"
         android:textSize="28sp"
         android:textStyle="bold"/>
 
@@ -44,11 +44,12 @@
             android:inputType="textPassword" />
     </LinearLayout>
 
-    <Button
+    <android.widget.Button
         android:id="@+id/btn_login"
-        android:layout_width="268sp"
-        android:layout_height="60sp"
+        android:layout_width="268dp"
+        android:layout_height="60dp"
         android:layout_marginTop="50dp"
+        android:background="@drawable/button_border"
         android:text="Login"
         />
 
@@ -56,15 +57,15 @@
         android:id="@+id/loginGoogle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5sp"
+        android:layout_marginTop="5dp"
         android:src="@drawable/googlesi"
         android:background="@color/white" />
 
     <android.widget.Button
-        android:layout_width="218sp"
+        android:layout_width="218dp"
         android:id="@+id/enrollBtn"
-        android:layout_height="66sp"
-        android:layout_marginTop="5sp"
+        android:layout_height="66dp"
+        android:layout_marginTop="5dp"
         android:text="sign Up"
         android:background="@drawable/radius"/>
 
