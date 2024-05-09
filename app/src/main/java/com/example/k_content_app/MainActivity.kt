@@ -135,6 +135,8 @@ class MainActivity : AppCompatActivity() {
         if (user != null) {
             // 사용자가 로그인된 상태
             // 로그인 후 처리할 작업을 수행
+            val intent = Intent(this,SearchActivity::class.java)
+            startActivity(intent)
             Log.d(TAG, "User is logged in with uid: ${user.uid}")
         } else {
             // 사용자가 로그인되어 있지 않은 상태
