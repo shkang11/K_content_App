@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +17,7 @@ class SearchActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
 
+        val searchText = intent.getStringExtra("searchText")
         items.add(
             SearchModel("https://img.insight.co.kr/static/2021/10/15/700/img_20211015155350_01si69f0.webp",
                 "Squid Game",
@@ -78,14 +78,16 @@ class SearchActivity : AppCompatActivity() {
                 "Guardian - The Lonely and Great God",
                 "전라북도 고창군 공음면 보리나라 학원공장")
         )
-
         val recyclerView = findViewById<RecyclerView>(R.id.rv)
-        val rvAdapter = RVAdapter(baseContext,items)
+        val rvAdapter = RVAdapter(baseContext,items,searchText)
         recyclerView.adapter = rvAdapter
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+
+
         val searchView = findViewById<SearchView>(R.id.searchView)
+        searchView.setQuery(searchText, false)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false

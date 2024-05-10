@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.k_content_app.R
 import com.example.k_content_app.SearchModel
 
-class RVAdapter(val context: Context, val originalList : MutableList<SearchModel>) :RecyclerView.Adapter<RVAdapter.ViewHolder>() {
+class RVAdapter(val context: Context, val originalList: MutableList<SearchModel>, searchText: String? = "") :RecyclerView.Adapter<RVAdapter.ViewHolder>() {
 
     // 필터링된 결과를 담을 리스트
     private var filteredList: MutableList<SearchModel> = ArrayList()
@@ -18,6 +18,10 @@ class RVAdapter(val context: Context, val originalList : MutableList<SearchModel
     init {
         // 초기에는 전체 리스트를 보여줍니다.
         filteredList.addAll(originalList)
+        // 검색어가 비어있지 않은 경우에는 필터링을 수행합니다.
+        if (searchText!!.isNotBlank()) {
+            filter(searchText.toString())
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RVAdapter.ViewHolder {
@@ -51,14 +55,16 @@ class RVAdapter(val context: Context, val originalList : MutableList<SearchModel
     // 검색어에 따라 데이터 필터링 함수
     fun filter(text: String) {
         filteredList.clear()
+        val searchText = text.toLowerCase().trim()
         if (text.isEmpty()) {
             // 검색어가 비어있으면 전체 리스트를 보여줍니다.
             filteredList.addAll(originalList)
         } else {
             // 검색어가 비어있지 않으면 검색어를 포함하는 항목만 보여줍니다.
-            val searchText = text.toLowerCase().trim()
             originalList.forEach { item ->
-                if (item.dramaTitle.toLowerCase().contains(searchText)) {
+                val titleContains = item.dramaTitle.toLowerCase().contains(searchText)
+                val locationContains = item.location.toLowerCase().contains(searchText)
+                if (titleContains || locationContains) {
                     filteredList.add(item)
                 }
             }
