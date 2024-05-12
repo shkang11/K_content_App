@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="검색"/>
     </LinearLayout>
-
+    <!-- 여기 ImageView는 이미지를 올렸을 때 아래에 이미지를 불러올까나..?-->
     <ImageView
 
         android:layout_marginTop="250dp"
@@ -44,13 +44,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/btn1"
-            android:text="버튼 1"/>
+            android:text="검색하기"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/btn2"
-            android:text="버튼2"/>
+            android:text="사용자정보"/>
     </LinearLayout>
 
 
