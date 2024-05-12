@@ -44,6 +44,7 @@
         android:layout_margin="10dp">
 
         <ImageView
+            android:outlineAmbientShadowColor="#8E8E8E"
             android:id="@+id/uesrInfoView"
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -51,9 +52,6 @@
             android:src="@drawable/email" />
         <TextView
             android:layout_marginLeft="10dp"
-            android:shadowColor="#8E8E8E"
-            android:shadowRadius="10"
-            android:shadowDy="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="가입 정보"/>
@@ -78,9 +76,6 @@
             android:layout_marginStart="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:shadowColor="#8E8E8E"
-            android:shadowRadius="10"
-            android:shadowDy="1"
             android:text="리뷰 관리"/>
 
 
@@ -100,12 +95,9 @@
             android:src="@drawable/bookmark" />
         <TextView
             android:layout_marginStart="10dp"
-            android:shadowColor="#8E8E8E"
-            android:shadowRadius="10"
-            android:shadowDy="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="즐겨찾기 관리"/>
+            android:text="가입 정보"/>
 
 
     </LinearLayout>
