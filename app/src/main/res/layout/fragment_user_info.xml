@@ -10,13 +10,31 @@
 
 
     <ImageView
-        android:layout_margin="50dp"
         android:layout_gravity="center"
         android:id="@+id/img_user"
         android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/userimg" />
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:text="uesr 1"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:shadowColor="#8E8E8E"
+        android:shadowRadius="10"
+        android:shadowDy="15"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="60sp"
+        android:layout_height="30sp"
+        android:text="\@uesr 1"
+        android:textSize="15sp"
+        android:shadowColor="#8E8E8E"
+        android:shadowRadius="10"
+        android:shadowDy="1"
+        android:layout_gravity="center"/>
 
     <LinearLayout
         android:background="#EAE7E7"
@@ -26,14 +44,16 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:background="#575757"
             android:id="@+id/uesrInfoView"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="fitXY"
-            android:src="@android:drawable/ic_dialog_info" />
+            android:src="@drawable/email" />
         <TextView
             android:layout_marginLeft="10dp"
+            android:shadowColor="#8E8E8E"
+            android:shadowRadius="10"
+            android:shadowDy="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="가입 정보"/>
@@ -49,16 +69,18 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:background="#575757"
             android:id="@+id/manage_review"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="fitXY"
-            android:src="@android:drawable/stat_notify_chat" />
+            android:src="@drawable/reviewimg" />
         <TextView
             android:layout_marginStart="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:shadowColor="#8E8E8E"
+            android:shadowRadius="10"
+            android:shadowDy="1"
             android:text="리뷰 관리"/>
 
 
@@ -71,14 +93,16 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:background="#575757"
             android:id="@+id/manage_bookmark"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="fitXY"
-            android:src="@android:drawable/btn_star_big_on" />
+            android:src="@drawable/bookmark" />
         <TextView
             android:layout_marginStart="10dp"
+            android:shadowColor="#8E8E8E"
+            android:shadowRadius="10"
+            android:shadowDy="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="가입 정보"/>
@@ -102,7 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/btn2"
-            android:text="사용자정보"/>
+            android:text="즐겨 찾기 관리"/>
     </LinearLayout>
 
 
