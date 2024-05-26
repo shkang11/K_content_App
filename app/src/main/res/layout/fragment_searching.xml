@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:hint="텍스트나 이미지를 올려주세요"/>
         <Button
+            android:id="@+id/imageSearchBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="이미지"/>

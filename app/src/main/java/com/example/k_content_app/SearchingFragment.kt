@@ -25,12 +25,26 @@ class SearchingFragment : Fragment() {
             it.findNavController().navigate(R.id.action_searchingFragment_to_userInfoFragment)
         }
         val searchButton = view.findViewById<Button>(R.id.searchbtn)
+        val imageSearchButton = view.findViewById<Button>(R.id.imageSearchBtn)
 
         searchButton.setOnClickListener {
             val searchText = view.findViewById<EditText>(R.id.searchcontent).text.toString()
             val intent = Intent(activity, SearchActivity::class.java)
             intent.putExtra("searchText", searchText)
             startActivity(intent)
+        }
+
+        imageSearchButton.setOnClickListener{
+            // 모델 결과 반환값으로 받아와 intent.putExtra()로 넘겨준다.
+            val imageSearchResult = ImageModel().callImageSearch()
+
+            if (imageSearchResult != null)
+            {
+                println("imageSearchResult : $imageSearchResult" )
+            } else {
+                println("imageSearchResult is null")
+            }
+
         }
         return view;
     }
