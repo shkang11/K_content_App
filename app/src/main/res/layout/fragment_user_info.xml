@@ -17,7 +17,9 @@
         android:layout_marginTop="60dp"
         android:src="@drawable/userimg" />
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/username"
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="uesr 1"
         android:textSize="30sp"
@@ -27,7 +29,9 @@
         android:shadowDy="15"
         android:layout_gravity="center"/>
     <TextView
-        android:layout_width="60sp"
+        android:id="@+id/userid"
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="30sp"
         android:text="\@uesr 1"
         android:textSize="15sp"
@@ -37,6 +41,7 @@
         android:layout_gravity="center"/>
 
     <LinearLayout
+        android:id="@+id/enrollInfo"
         android:background="#EAE7E7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -109,9 +114,13 @@
 
 
     </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userReviewList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"/>
 
     <LinearLayout
-        android:layout_marginTop="150dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
