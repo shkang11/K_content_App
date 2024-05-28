@@ -1,6 +1,7 @@
 package com.example.k_content_app
 
 import RVAdapter
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.SearchView
 import androidx.activity.enableEdgeToEdge
@@ -80,10 +81,18 @@ class SearchActivity : AppCompatActivity() {
         )
         val recyclerView = findViewById<RecyclerView>(R.id.rv)
         val rvAdapter = RVAdapter(baseContext,items,searchText)
+        // RVAdapter에 아이템 클릭 리스너 설정
+        rvAdapter.setOnItemClickListener { selectedItem ->
+            val intent = Intent(this@SearchActivity, DramaDetailActivity::class.java).apply {
+                putExtra("image", selectedItem.imageUrl)
+                putExtra("title", selectedItem.dramaTitle)
+                putExtra("location", selectedItem.location)
+            }
+            startActivity(intent)
+        }
         recyclerView.adapter = rvAdapter
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-
 
 
         val searchView = findViewById<SearchView>(R.id.searchView)
