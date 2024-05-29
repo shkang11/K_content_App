@@ -39,20 +39,7 @@ class SearchingFragment : Fragment() {
             // Log.d("ImageSearch", "Click ImageSeacrch Button ")
 
             val imageModel = ImageModel()
-            imageModel.callImageSearch(object : ImageModel.ImageSearchCallback {
-                override fun onImageSearchResult(result: String?) {
-                    if (result != null) {
-                        Log.d("Test", "imageSearchResult: $result")
-                    } else {
-                        Log.e("TestError", "imageSearchResult is null")
-                    }
-
-                    val intent = Intent(activity, SearchActivity::class.java)
-                    intent.putExtra("searchText", result)
-                    startActivity(intent)
-                }
-            })
-
+            imageModel.callImageSearch()
         }
         return view;
     }

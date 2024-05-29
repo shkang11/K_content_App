@@ -5,6 +5,7 @@ import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.k_content_app.ml.KContentImageModel
 import org.tensorflow.lite.DataType
@@ -19,7 +20,7 @@ class ImageModel : AppCompatActivity(){
     lateinit var imageProcessor: ImageProcessor
     lateinit var labels: List<String>
     var maxIdx: Int = 0
-    private var imageSearchCallback: ImageSearchCallback? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,16 +41,21 @@ class ImageModel : AppCompatActivity(){
             .build()
     }
 
-    // 콜백 인터페이스 정의
-    interface ImageSearchCallback {
-        fun onImageSearchResult(result: String?)
-    }
 
     // 이미지 검색 메서드
-    fun callImageSearch(callback: ImageSearchCallback) {
-        imageSearchCallback = callback
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
+    fun callImageSearch()
+    {
+        Log.d("call", "successCallImage ")
+        imageSelect()
+        //  return labels[maxIdx]
+    }
+
+    fun imageSelect()
+    {
+        var intent = Intent()
+        intent.setAction(Intent.ACTION_GET_CONTENT)
+        intent.setType("image/*")
+        Log.d("selectImage", "selectImage ")
         startActivityForResult(intent, 100)
     }
 
@@ -75,6 +81,7 @@ class ImageModel : AppCompatActivity(){
             }
         }
 
+        Log.d("Result", "imageSearchResult : $labels[maxIdx]")
         model.close()
     }
 
@@ -82,12 +89,20 @@ class ImageModel : AppCompatActivity(){
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 100) {
-            val uri = data?.data
-            bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-            modelActivity(bitmap)
-            imageSearchCallback?.onImageSearchResult(labels[maxIdx])
+            if (resultCode == RESULT_OK) {
+                Log.d("request", "GetRequestCode ")
+                val uri = data?.data
+                uri?.let {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, it)
+                    modelActivity(bitmap)
+                } ?: run {
+                    Log.e("request", "Uri is null")
+                }
+            } else {
+                Log.e("request", "Result not OK")
+            }
         } else {
-            imageSearchCallback?.onImageSearchResult(null)
+            Log.e("request", "Request code does not match")
         }
     }
 }
