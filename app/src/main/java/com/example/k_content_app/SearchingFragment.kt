@@ -2,6 +2,7 @@ package com.example.k_content_app
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -35,15 +36,22 @@ class SearchingFragment : Fragment() {
         }
 
         imageSearchButton.setOnClickListener{
-            // 모델 결과 반환값으로 받아와 intent.putExtra()로 넘겨준다.
-            val imageSearchResult = ImageModel().callImageSearch()
+            // Log.d("ImageSearch", "Click ImageSeacrch Button ")
 
-            if (imageSearchResult != null)
-            {
-                println("imageSearchResult : $imageSearchResult" )
-            } else {
-                println("imageSearchResult is null")
-            }
+            val imageModel = ImageModel()
+            imageModel.callImageSearch(object : ImageModel.ImageSearchCallback {
+                override fun onImageSearchResult(result: String?) {
+                    if (result != null) {
+                        Log.d("Test", "imageSearchResult: $result")
+                    } else {
+                        Log.e("TestError", "imageSearchResult is null")
+                    }
+
+                    val intent = Intent(activity, SearchActivity::class.java)
+                    intent.putExtra("searchText", result)
+                    startActivity(intent)
+                }
+            })
 
         }
         return view;

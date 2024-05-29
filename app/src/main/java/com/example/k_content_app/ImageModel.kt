@@ -19,6 +19,8 @@ class ImageModel : AppCompatActivity(){
     lateinit var imageProcessor: ImageProcessor
     lateinit var labels: List<String>
     var maxIdx: Int = 0
+    private var imageSearchCallback: ImageSearchCallback? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,13 +40,17 @@ class ImageModel : AppCompatActivity(){
             .build()
     }
 
-    fun callImageSearch(): String
-    {
-        var intent = Intent()
-        intent.setAction(Intent.ACTION_GET_CONTENT)
-        intent.setType("image/*")
+    // 콜백 인터페이스 정의
+    interface ImageSearchCallback {
+        fun onImageSearchResult(result: String?)
+    }
+
+    // 이미지 검색 메서드
+    fun callImageSearch(callback: ImageSearchCallback) {
+        imageSearchCallback = callback
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
         startActivityForResult(intent, 100)
-        return labels[maxIdx]
     }
 
     fun modelActivity(bitmap: Bitmap)
@@ -75,11 +81,13 @@ class ImageModel : AppCompatActivity(){
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == 100){
-            var uri = data?.data
+        if (requestCode == 100) {
+            val uri = data?.data
             bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-            // imageView.setImageBitmap(bitmap)
             modelActivity(bitmap)
+            imageSearchCallback?.onImageSearchResult(labels[maxIdx])
+        } else {
+            imageSearchCallback?.onImageSearchResult(null)
         }
     }
 }
