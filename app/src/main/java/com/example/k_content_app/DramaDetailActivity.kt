@@ -6,34 +6,56 @@ import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.k_content_app.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
+    private lateinit var reviewRecyclerView: RecyclerView
+    private lateinit var reviewAdapter: ReviewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_drama_detail)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.dramadetail)) { v, insets ->
+
+        val dramaDetailView = findViewById<RelativeLayout>(R.id.dramadetail)
+        ViewCompat.setOnApplyWindowInsetsListener(dramaDetailView) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Initialize Bottom Sheet
+        val bottomSheet = findViewById<FrameLayout>(R.id.bottom_sheet)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
+            peekHeight = 1500 // 초기 높이를 설정
+        }
+
+        // Set up RecyclerView for reviews
+        reviewRecyclerView = findViewById(R.id.reviewRecyclerView)
+        reviewRecyclerView.layoutManager = LinearLayoutManager(this)
+        reviewAdapter = ReviewAdapter(getDummyReviews()) // You can replace getDummyReviews() with actual data
+        reviewRecyclerView.adapter = reviewAdapter
 
         // 드라마 정보를 가져옵니다.
         val dramaImage = intent.getStringExtra("image")
@@ -46,7 +68,6 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val locationTextView = findViewById<TextView>(R.id.locationTextView)
         val navigationButton = findViewById<Button>(R.id.navigationButton)
         val writeReviewButton = findViewById<Button>(R.id.writeReviewButton)
-
 
         Glide.with(this)
             .load(dramaImage)
@@ -123,5 +144,37 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         // 드라마 촬영지의 위도와 경도를 얻어와서 지도에 마커를 추가하고 해당 위치로 이동
         val dramaLocation = intent.getStringExtra("location")
         getLatitudeLongitude(dramaLocation!!)
+    }
+
+    private fun getDummyReviews(): List<Review> {
+        return listOf(
+            Review("User1", "Great drama!"),
+            Review("User2", "Loved the scenery."),
+            Review("User3", "Amazing storyline.")
+        )
+    }
+
+    data class Review(val username: String, val comment: String)
+
+    class ReviewAdapter(private val reviews: List<Review>) : RecyclerView.Adapter<ReviewAdapter.ViewHolder>() {
+
+        class ViewHolder(view: android.view.View) : RecyclerView.ViewHolder(view) {
+            val usernameTextView: TextView = view.findViewById(R.id.usernameTextView)
+            val commentTextView: TextView = view.findViewById(R.id.commentTextView)
+        }
+
+        override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): ViewHolder {
+            val view = android.view.LayoutInflater.from(parent.context)
+                .inflate(R.layout.review_item, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val review = reviews[position]
+            holder.usernameTextView.text = review.username
+            holder.commentTextView.text = review.comment
+        }
+
+        override fun getItemCount() = reviews.size
     }
 }
