@@ -150,7 +150,18 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         return listOf(
             Review("User1", "Great drama!"),
             Review("User2", "Loved the scenery."),
-            Review("User3", "Amazing storyline.")
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
+            Review("User3", "Amazing storyline."),
         )
     }
 
