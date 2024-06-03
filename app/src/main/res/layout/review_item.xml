@@ -13,8 +13,16 @@
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/ReviewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="4dp"/>
+    <TextView
         android:id="@+id/commentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:layout_marginTop="4dp" />
+
 </LinearLayout>
