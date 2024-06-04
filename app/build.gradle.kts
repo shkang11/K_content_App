@@ -49,6 +49,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.github.bumptech.glide:glide:4.12.0")
+   // implementation("com.android.support.design:34.0.0")
     // Import the BoM for the Firebase platform
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

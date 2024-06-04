@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 
 
@@ -37,9 +38,8 @@ class SearchingFragment : Fragment() {
 
         imageSearchButton.setOnClickListener{
             // Log.d("ImageSearch", "Click ImageSeacrch Button ")
+            UploadChooser().show(AppCompatActivity().supportFragmentManager, "")
 
-            val imageModel = ImageModel()
-            imageModel.callImageSearch()
         }
         return view;
     }

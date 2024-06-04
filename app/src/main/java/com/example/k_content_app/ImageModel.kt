@@ -93,7 +93,7 @@ class ImageModel : AppCompatActivity(){
                 Log.d("request", "GetRequestCode ")
                 val uri = data?.data
                 uri?.let {
-                    bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, it)
+                    bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
                     modelActivity(bitmap)
                 } ?: run {
                     Log.e("request", "Uri is null")
