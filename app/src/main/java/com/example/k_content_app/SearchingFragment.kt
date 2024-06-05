@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.navigation.findNavController
 
 
@@ -21,10 +21,11 @@ class SearchingFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_searching,container,false)
-        view.findViewById<Button>(R.id.btn2).setOnClickListener {
+        //btn2가 imagebutton임을 확인하고 참조를 수정
+        view.findViewById<ImageButton>(R.id.btn2).setOnClickListener {
             it.findNavController().navigate(R.id.action_searchingFragment_to_userInfoFragment)
         }
-        val searchButton = view.findViewById<Button>(R.id.searchbtn)
+        val searchButton = view.findViewById<ImageButton>(R.id.searchbtn)
 
         searchButton.setOnClickListener {
             val searchText = view.findViewById<EditText>(R.id.searchcontent).text.toString()

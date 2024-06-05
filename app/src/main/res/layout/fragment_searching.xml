@@ -1,58 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchingFragment"
-    android:orientation="vertical">
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".SearchingFragment">
 
+    <!-- 상단 레이아웃 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="47dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:background="@android:color/white"
+            android:src="@drawable/menu_icon" />
+
+        <ImageView
+            android:id="@+id/main_logo"
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:src="@drawable/main_logo" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="13dp"
+        android:src="@drawable/logo_line" />
+
+    <!-- 검색 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_edittext_background">
+
         <EditText
             android:id="@+id/searchcontent"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="텍스트나 이미지를 올려주세요"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이미지"/>
-        <Button
-            android:id="@+id/searchbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="검색"/>
-    </LinearLayout>
-    <!-- 여기 ImageView는 이미지를 올렸을 때 아래에 이미지를 불러올까나..?-->
-    <ImageView
+            android:layout_weight="1"
+            android:hint="Search" />
 
-        android:layout_marginTop="250dp"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_launcher_foreground"
-        android:layout_marginLeft="50dp"/>
+        <ImageButton
+            android:layout_width="47dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_edittext_background"
+            android:src="@drawable/search_camera_icon" />
+
+        <ImageButton
+            android:id="@+id/searchbtn"
+            android:layout_width="51dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_edittext_background"
+            android:src="@drawable/nv_search_icon" />
+    </LinearLayout>
+
+    <!-- 이미지 뷰 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/image_search" />
+
+    <!-- 하단 네비게이션 바 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
         android:orientation="horizontal">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btn1"
-            android:text="검색하기"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+
+        <ImageButton
             android:id="@+id/btn2"
-            android:text="사용자정보"/>
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:src="@drawable/nv_user_icon" />
+
+        <ImageButton
+            android:id="@+id/btn3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:src="@drawable/nv_home_icon" />
+
+        <ImageButton
+            android:id="@+id/btn1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:src="@drawable/nv_search_icon" />
     </LinearLayout>
-
-
-
 </LinearLayout>

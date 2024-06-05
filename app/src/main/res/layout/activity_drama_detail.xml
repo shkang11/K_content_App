@@ -4,7 +4,8 @@
     android:id="@+id/dramadetail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DramaDetailActivity">
+    tools:context=".DramaDetailActivity"
+    android:background="@android:color/white">
 
     <fragment
         android:id="@+id/map"
