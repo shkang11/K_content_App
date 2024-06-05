@@ -29,13 +29,15 @@
             android:text="검색"/>
     </LinearLayout>
     <!-- 여기 ImageView는 이미지를 올렸을 때 아래에 이미지를 불러올까나..?-->
-    <ImageView
 
-        android:layout_marginTop="250dp"
+    <ImageView
+        android:id="@+id/imageSearchView"
         android:layout_width="300dp"
         android:layout_height="200dp"
-        android:src="@drawable/ic_launcher_foreground"
-        android:layout_marginLeft="50dp"/>
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="200dp"
+        android:src="@drawable/ic_launcher_foreground" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

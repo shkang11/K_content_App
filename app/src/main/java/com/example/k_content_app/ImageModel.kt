@@ -1,9 +1,9 @@
 package com.example.k_content_app
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.Bitmap
-import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -14,59 +14,56 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.ops.ResizeOp
 
-class ImageModel : AppCompatActivity(){
+class ImageModel(private val context: Context) {
+
+    interface ImageSearchCallback {
+        fun onImageSearchResult(result: String)
+    }
+
+    var callback: ImageSearchCallback? = null
+
 
     lateinit var bitmap: Bitmap
     lateinit var imageProcessor: ImageProcessor
     lateinit var labels: List<String>
     var maxIdx: Int = 0
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    init {
         // 레이블 파일을 읽어서 리스트로 저장하는 함수
-        fun loadLabels(assetManager: AssetManager, fileName: String): List<String> {
-            return assetManager.open(fileName).bufferedReader().useLines { it.toList() }
-        }
-
-        // Activity 코드 내부
-        labels = loadLabels(application.assets, "label.txt")
+        labels = loadLabels(context.assets, "label.txt")
 
         // image processor
         imageProcessor = ImageProcessor.Builder()
-            //    .add(NormalizeOp(0.0f, 255.0f))
-            //    .add(TransformToGrayscaleOp())
-            .add(ResizeOp(32,32, ResizeOp.ResizeMethod.BILINEAR))
+            .add(ResizeOp(32, 32, ResizeOp.ResizeMethod.BILINEAR))
             .build()
     }
 
-
-    // 이미지 검색 메서드
-    fun callImageSearch()
-    {
-        Log.d("call", "successCallImage ")
-        imageSelect()
-        //  return labels[maxIdx]
+    // 레이블 파일을 읽는 함수
+    private fun loadLabels(assetManager: AssetManager, fileName: String): List<String> {
+        return assetManager.open(fileName).bufferedReader().useLines { it.toList() }
     }
 
-    fun imageSelect()
-    {
-        var intent = Intent()
+    // 이미지 검색 메서드
+    fun callImageSearch(activity: AppCompatActivity) {
+        Log.d("call", "successCallImage ")
+        imageSelect(activity)
+    }
+
+    fun imageSelect(activity: AppCompatActivity) {
+        val intent = Intent()
         intent.setAction(Intent.ACTION_GET_CONTENT)
         intent.setType("image/*")
         Log.d("selectImage", "selectImage ")
-        startActivityForResult(intent, 100)
+        activity.startActivityForResult(intent, 100)
     }
 
-    fun modelActivity(bitmap: Bitmap)
-    {
+    fun modelActivity(bitmap: Bitmap) {
         var tensorImage = TensorImage(DataType.FLOAT32)
         tensorImage.load(bitmap)
 
         tensorImage = imageProcessor.process(tensorImage)
 
-        val model = KContentImageModel.newInstance(this)
+        val model = KContentImageModel.newInstance(context)
 
         val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 32, 32, 3), DataType.FLOAT32)
         inputFeature0.loadBuffer(tensorImage.buffer)
@@ -75,34 +72,17 @@ class ImageModel : AppCompatActivity(){
         val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
 
         maxIdx = 0
-        outputFeature0.forEachIndexed{ index, fl ->
-            if (outputFeature0[maxIdx] < fl){
+        outputFeature0.forEachIndexed { index, fl ->
+            if (outputFeature0[maxIdx] < fl) {
                 maxIdx = index
             }
         }
 
-        Log.d("Result", "imageSearchResult : $labels[maxIdx]")
+        val resultLabel = labels[maxIdx]
+        Log.d("Result", "imageSearchResult : $resultLabel")
+        callback?.onImageSearchResult(resultLabel)  // Call the callback with the result
         model.close()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 100) {
-            if (resultCode == RESULT_OK) {
-                Log.d("request", "GetRequestCode ")
-                val uri = data?.data
-                uri?.let {
-                    bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-                    modelActivity(bitmap)
-                } ?: run {
-                    Log.e("request", "Uri is null")
-                }
-            } else {
-                Log.e("request", "Result not OK")
-            }
-        } else {
-            Log.e("request", "Request code does not match")
-        }
-    }
 }
