@@ -21,14 +21,21 @@ class SearchingFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_searching,container,false)
+        // 레이아웃을 인플레이트 합니다.
+        val view = inflater.inflate(R.layout.fragment_searching, container, false)
+
+        // 버튼 초기화 및 클릭 리스너 설정
+        val imageSearchButton = view.findViewById<Button>(R.id.imageSearchBtn)
+        imageSearchButton.setOnClickListener {
+            Log.d("ImageSearch", "Click ImageSearch Button")
+            UploadChooser().show(parentFragmentManager, "UploadChooser")
+        }
+
         view.findViewById<Button>(R.id.btn2).setOnClickListener {
             it.findNavController().navigate(R.id.action_searchingFragment_to_userInfoFragment)
         }
-        val searchButton = view.findViewById<Button>(R.id.searchbtn)
-        val imageSearchButton = view.findViewById<Button>(R.id.imageSearchBtn)
 
+        val searchButton = view.findViewById<Button>(R.id.searchbtn)
         searchButton.setOnClickListener {
             val searchText = view.findViewById<EditText>(R.id.searchcontent).text.toString()
             val intent = Intent(activity, SearchActivity::class.java)
@@ -36,12 +43,6 @@ class SearchingFragment : Fragment() {
             startActivity(intent)
         }
 
-        imageSearchButton.setOnClickListener{
-            // Log.d("ImageSearch", "Click ImageSeacrch Button ")
-            UploadChooser().show(AppCompatActivity().supportFragmentManager, "")
-
-        }
-        return view;
+        return view
     }
-
 }
