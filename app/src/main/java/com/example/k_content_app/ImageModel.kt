@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.Bitmap
-import android.provider.MediaStore
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.example.k_content_app.ml.KContentImageModel
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
@@ -44,12 +42,12 @@ class ImageModel(private val context: Context) {
     }
 
     // 이미지 검색 메서드
-    fun callImageSearch(activity: AppCompatActivity) {
+    fun callImageSearch(activity: SearchingFragment) {
         Log.d("call", "successCallImage ")
         imageSelect(activity)
     }
 
-    fun imageSelect(activity: AppCompatActivity) {
+    fun imageSelect(activity: SearchingFragment) {
         val intent = Intent()
         intent.setAction(Intent.ACTION_GET_CONTENT)
         intent.setType("image/*")

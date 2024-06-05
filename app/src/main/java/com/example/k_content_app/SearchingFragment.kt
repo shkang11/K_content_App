@@ -1,9 +1,11 @@
 package com.example.k_content_app
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,18 +17,39 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 
-class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback{
+class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
 
     private lateinit var imageModel: ImageModel
-    // lateinit var resView : TextView
-    //lateinit var imageView : ImageView
+
+    private var resView: TextView? = null
+    private var imageView: ImageView? = null
+
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            val uri = result.data?.data
+            uri?.let {
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, it)
+                    imageView?.setImageBitmap(bitmap)
+                    imageModel.modelActivity(bitmap)
+                    Log.d("ImageSearch", "Image loaded and processed successfully")
+                } catch (e: Exception) {
+                    Log.e("ImageSearch", "Error loading image", e)
+                }
+            } ?: run {
+                Log.e("ImageSearch", "Uri is null")
+            }
+        } else {
+            Log.e("ImageSearch", "Result not OK")
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // 레이아웃을 인플레이트 합니다.
         val view = inflater.inflate(R.layout.fragment_searching, container, false)
 
-    //    resView = view.findViewById(R.id.searchcontent)
-    //    imageView = view.findViewById(R.id.imageSearchView)
+        resView = view.findViewById(R.id.searchcontent)
+        imageView = view.findViewById(R.id.imageSearchView)
 
         // ImageModel 초기화
         imageModel = ImageModel(requireContext())
@@ -34,6 +57,7 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback{
 
         // UserInfoFragment로 이동하는 버튼
         view.findViewById<Button>(R.id.btn2).setOnClickListener {
+            Log.d("Navigation", "Navigating to UserInfoFragment")
             it.findNavController().navigate(R.id.action_searchingFragment_to_userInfoFragment)
         }
 
@@ -41,6 +65,7 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback{
         val searchButton = view.findViewById<Button>(R.id.searchbtn)
         searchButton.setOnClickListener {
             val searchText = view.findViewById<EditText>(R.id.searchcontent).text.toString()
+            Log.d("Search", "Search button clicked with text: $searchText")
             val intent = Intent(activity, SearchActivity::class.java)
             intent.putExtra("searchText", searchText)
             startActivity(intent)
@@ -51,42 +76,30 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback{
         imageSearchButton.setOnClickListener {
             // 로그 추가
             Log.d("ImageSearch", "Click ImageSearch Button")
-            imageModel.callImageSearch(requireActivity() as AppCompatActivity)
+            callImageSearch(this)
         }
 
         return view
     }
 
     override fun onImageSearchResult(result: String) {
-        var resView : TextView? = view?.findViewById(R.id.searchcontent)
-        resView?.setText(result)
-        val searchText = result
-        val intent = Intent(activity, SearchActivity::class.java)
-        intent.putExtra("searchText", searchText)
-        startActivity(intent)
+        Log.d("ImageSearch", "onImageSearchResult called with result: $result")
+        resView?.text = result
+//        val searchText = result
+//        val intent = Intent(activity, SearchActivity::class.java)
+//        intent.putExtra("searchText", searchText)
+//        startActivity(intent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 100) {
-            if (resultCode == AppCompatActivity.RESULT_OK) {
-                Log.d("request", "GetRequestCode ")
-                val uri = data?.data
-                uri?.let {
-                    val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, it)
-                    var imageView : ImageView? = view?.findViewById(R.id.imageSearchView)
-                    imageView?.setImageBitmap(bitmap)
-                    imageModel.modelActivity(bitmap)
-                } ?: run {
-                    Log.e("request", "Uri is null")
-                }
-            } else {
-                Log.e("request", "Result not OK")
-            }
-        } else {
-            Log.e("request", "Request code does not match")
-        }
+    fun callImageSearch(fragment: Fragment) {
+        Log.d("ImageSearch", "callImageSearch called")
+        imageSelect(fragment)
     }
 
+    fun imageSelect(fragment: Fragment) {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        Log.d("ImageSearch", "Launching image selector")
+        imagePickerLauncher.launch(intent)
+    }
 }
