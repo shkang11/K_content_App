@@ -15,6 +15,8 @@ class RVAdapter(val context: Context, val originalList: MutableList<SearchModel>
     // 필터링된 결과를 담을 리스트
     private var filteredList: MutableList<SearchModel> = ArrayList()
 
+    // 아이템 클릭 리스너
+    private var itemClickListener: ((SearchModel) -> Unit)? = null
     init {
         // 초기에는 전체 리스트를 보여줍니다.
         filteredList.addAll(originalList)
@@ -49,6 +51,18 @@ class RVAdapter(val context: Context, val originalList: MutableList<SearchModel>
                 .into(rv_img)
             rv_title.text = item.dramaTitle
             rv_location.text = item.location
+
+        }
+
+        init {
+            itemView.setOnClickListener {
+                // 클릭된 아이템의 위치를 가져옵니다.
+                val position = adapterPosition
+                // 위치가 유효한지 확인하고 클릭 리스너가 등록되어 있으면 실행합니다.
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener?.invoke(filteredList[position])
+                }
+            }
         }
     }
 
@@ -71,4 +85,10 @@ class RVAdapter(val context: Context, val originalList: MutableList<SearchModel>
         }
         notifyDataSetChanged()
     }
+
+    // 아이템 클릭 리스너 설정 메서드
+    fun setOnItemClickListener(listener: (SearchModel) -> Unit) {
+        itemClickListener = listener
+    }
+
 }
