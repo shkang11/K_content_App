@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -77,6 +78,13 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
             // 로그 추가
             Log.d("ImageSearch", "Click ImageSearch Button")
             callImageSearch(this)
+        }
+
+        // 퀴즈설명으로 넘어가는 이미지 버튼
+        val quizButton = view.findViewById<ImageButton>(R.id.quizButton)
+        quizButton.setOnClickListener {
+            val intent = Intent(activity, GameDescriptionActivity::class.java)
+            startActivity(intent)
         }
 
         return view

@@ -56,6 +56,13 @@
             android:text="사용자정보"/>
     </LinearLayout>
 
-
+    <!-- 퀴즈로 넘어가는 이미지 버튼 추가 -->
+    <ImageButton
+        android:id="@+id/quizButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/quizbtn"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"/>
 
 </LinearLayout>
