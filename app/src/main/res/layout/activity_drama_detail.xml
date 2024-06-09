@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".DramaDetailActivity">
 
@@ -91,12 +92,14 @@
         android:layout_marginBottom="50dp"
         android:padding="16dp">
 
+        <!-- 길찾기 버튼 -->
         <Button
             android:id="@+id/navigationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="길찾기" />
 
+        <!-- 리뷰 작성 버튼 -->
         <Button
             android:id="@+id/writeReviewButton"
             android:layout_width="wrap_content"
