@@ -119,7 +119,8 @@ class UserInfoFragment : Fragment() {
                         val title = document.getString("title") ?: ""
                         val content = document.getString("content") ?: ""
                         val displayName = document.getString("displayName") ?: ""
-                        reviews.add(Review(displayName, title, content))
+                        val img = document.getString("img") ?: "@drawable/userimg"
+                        reviews.add(Review(displayName, title, content, img))
                     }
                     userReviewListAdapter.updateReviews(reviews)
                 }
@@ -208,7 +209,8 @@ class UserInfoFragment : Fragment() {
     data class Review(
         val displayName: String,
         val title: String,
-        val content: String
+        val content: String,
+        val img: String
     )
 
     // 리뷰 어댑터
@@ -220,6 +222,7 @@ class UserInfoFragment : Fragment() {
             val usernameTextView: TextView = itemView.findViewById(R.id.usernameTextView)
             val reviewTitleTextView: TextView = itemView.findViewById(R.id.ReviewTitle)
             val commentTextView: TextView = itemView.findViewById(R.id.commentTextView)
+            val userImageView: ImageView = itemView.findViewById(R.id.userprofileImage)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
@@ -233,6 +236,14 @@ class UserInfoFragment : Fragment() {
             holder.usernameTextView.text = review.displayName
             holder.reviewTitleTextView.text = review.title
             holder.commentTextView.text = review.content
+            if (review.img != "@drawable/userimg") {
+                Glide.with(holder.itemView.context)
+                    .load(review.img)
+                    .circleCrop() // 이미지 동그랗게 자르기
+                    .into(holder.userImageView)
+            } else {
+                holder.userImageView.setImageResource(R.drawable.userimg)
+            }
         }
 
         override fun getItemCount(): Int {

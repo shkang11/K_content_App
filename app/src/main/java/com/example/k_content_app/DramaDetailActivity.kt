@@ -61,7 +61,6 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         reviewAdapter = ReviewAdapter(mutableListOf()) // 빈 목록으로 초기화
         reviewRecyclerView.adapter = reviewAdapter
 
-
         // 드라마 정보를 가져옵니다.
         val dramaImage = intent.getStringExtra("image")
         val dramaTitle = intent.getStringExtra("title")
@@ -118,30 +117,33 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun saveReviewToFirestore(title: String, content: String) {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
-        val displayName = FirebaseAuth.getInstance().currentUser?.displayName ?: "anonymous"
-        val location = intent.getStringExtra("location") ?: ""
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
 
-        val review = hashMapOf(
-            "title" to title,
-            "content" to content,
-            "uid" to uid,
-            "displayName" to displayName,
-            "location" to location,// 위치 정보 추가
-            "createdAt" to FieldValue.serverTimestamp()
+        userRef.get().addOnSuccessListener { document ->
+            val userImgUrl = document.getString("img") ?: "@drawable/userimg"
+            val displayName = document.getString("displayName") ?: "anonymous"
+            val location = intent.getStringExtra("location") ?: ""
 
-        )
+            val review = hashMapOf(
+                "title" to title,
+                "content" to content,
+                "uid" to userId,
+                "displayName" to displayName,
+                "location" to location,
+                "img" to userImgUrl,
+                "createdAt" to FieldValue.serverTimestamp()
+            )
 
-        val db = FirebaseFirestore.getInstance()
-        val reviewDocument = db.collection("reviews").document()
-
-        reviewDocument.set(review)
-            .addOnSuccessListener {
-                // Success handling
-            }
-            .addOnFailureListener {
-                // Failure handling
-            }
+            FirebaseFirestore.getInstance().collection("reviews")
+                .add(review)
+                .addOnSuccessListener {
+                    // 리뷰 저장 성공 시 처리
+                }
+                .addOnFailureListener {
+                    // 리뷰 저장 실패 시 처리
+                }
+        }
     }
 
     private fun getLatitudeLongitude(location: String) {
@@ -149,7 +151,8 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         var endPoint: LatLng? = null
 
         // 도착지 주소를 위도와 경도로 변환
-        val destinationAddresses: List<Address> = geocoder.getFromLocationName(location, 1)?.toList() ?: emptyList()
+        val destinationAddresses: List<Address> =
+            geocoder.getFromLocationName(location, 1)?.toList() ?: emptyList()
         if (destinationAddresses.isNotEmpty()) {
             endPoint = LatLng(destinationAddresses[0].latitude, destinationAddresses[0].longitude)
         }
@@ -169,14 +172,19 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         var endPoint: LatLng? = null
 
         // 도착지 주소를 위도와 경도로 변환
-        val destinationAddresses: List<Address> = geocoder.getFromLocationName(location, 1)?.toList() ?: emptyList()
+        val destinationAddresses: List<Address> =
+            geocoder.getFromLocationName(location, 1)?.toList() ?: emptyList()
         if (destinationAddresses.isNotEmpty()) {
             endPoint = LatLng(destinationAddresses[0].latitude, destinationAddresses[0].longitude)
         }
 
         if (endPoint != null) {
             val url = "nmap://route/public?" +
-                    "&dlat=${endPoint.latitude}&dlng=${endPoint.longitude}&dname=${Uri.encode(location)}" +
+                    "&dlat=${endPoint.latitude}&dlng=${endPoint.longitude}&dname=${
+                        Uri.encode(
+                            location
+                        )
+                    }" +
                     "&appname=com.example.k_content_app"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
                 setPackage("com.nhn.android.nmap")
@@ -204,9 +212,9 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun getReviewsFromFirestore() {
         val db = FirebaseFirestore.getInstance()
         val location = intent.getStringExtra("location") ?: ""
-
         db.collection("reviews")
             .whereEqualTo("location", location) // 현재 위치에 해당하는 리뷰만 가져오기
+            .orderBy("createdAt", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 val reviews = mutableListOf<Review>()
@@ -214,21 +222,29 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     val title = document.getString("title") ?: ""
                     val content = document.getString("content") ?: ""
                     val displayName = document.getString("displayName") ?: ""
+                    val img = document.getString("img") ?: "@drawable/userimg"
+                    val location = document.getString("location") ?: ""
 
-                    reviews.add(Review(displayName, title, content))
+                    reviews.add(Review(displayName, title, content, img, location))
                 }
                 reviewAdapter.updateReviews(reviews)
             }
             .addOnFailureListener { exception ->
                 // Error handling
             }
+
     }
 
+    data class Review(
+        val username: String,
+        val title: String,
+        val comment: String,
+        val img: String,
+        val location: String
+    )
 
-
-    data class Review(val username: String, val title:String, val comment: String)
-
-    class ReviewAdapter(private var reviews: MutableList<Review>) : RecyclerView.Adapter<ReviewAdapter.ViewHolder>() {
+    class ReviewAdapter(private var reviews: MutableList<Review>) :
+        RecyclerView.Adapter<ReviewAdapter.ViewHolder>() {
 
         fun updateReviews(newReviews: List<Review>) {
             reviews.clear()
@@ -239,7 +255,8 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         class ViewHolder(view: android.view.View) : RecyclerView.ViewHolder(view) {
             val usernameTextView: TextView = view.findViewById(R.id.usernameTextView)
             val commentTextView: TextView = view.findViewById(R.id.commentTextView)
-            val reviewTitle : TextView = view.findViewById(R.id.ReviewTitle)
+            val reviewTitle: TextView = view.findViewById(R.id.ReviewTitle)
+            val userImageView: ImageView = view.findViewById(R.id.userprofileImage)
         }
 
         override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): ViewHolder {
@@ -253,9 +270,16 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             holder.usernameTextView.text = review.username
             holder.reviewTitle.text = review.title
             holder.commentTextView.text = review.comment
+
+            if (review.img != "@drawable/userimg") {
+                Glide.with(holder.itemView.context)
+                    .load(review.img)
+                    .circleCrop() // 이미지 동그랗게 자르기
+                    .into(holder.userImageView)
+            } else {
+                holder.userImageView.setImageResource(R.drawable.userimg)
+            }
         }
-
-
 
         override fun getItemCount() = reviews.size
     }
