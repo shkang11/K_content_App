@@ -18,11 +18,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,10 +72,11 @@ class MainActivity : AppCompatActivity() {
 
         val enrollBtn = findViewById<Button>(R.id.enrollBtn)
         enrollBtn?.setOnClickListener {
-            val intent = Intent(this,SelectEnroll::class.java)
+            val intent = Intent(this, SelectEnroll::class.java)
             startActivity(intent)
         }
-        // 로그인 버튼 클릭 시
+
+        // Google 로그인 버튼 클릭 시
         val googleBtn = findViewById<ImageButton>(R.id.loginGoogle)
         googleBtn.setOnClickListener {
             signIn()
@@ -131,19 +134,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUI(user: FirebaseUser?) {
-        // 사용자 인증 상태에 따라 UI 업데이트
         if (user != null) {
-            // 사용자가 로그인된 상태
-            // 로그인 후 처리할 작업을 수행
-            val intent = Intent(this,Nav_mainActivity::class.java)
-            startActivity(intent)
-            Log.d(TAG, "User is logged in with uid: ${user.uid}")
+            val userRef = db.collection("users").document(user.uid)
+
+            userRef.get().addOnSuccessListener { document ->
+                if (document.exists()) {
+                    // 문서가 이미 존재하는 경우, 사용자 데이터 수정하지 않음
+                    Log.d(TAG, "User data already exists!")
+                } else {
+                    // 문서가 존재하지 않는 경우에만 사용자 데이터 작성
+                    val userData = hashMapOf(
+                        "uid" to user.uid,
+                        "displayname" to user.displayName,
+                        "cash" to 0,
+                        "img" to null
+                    )
+                    userRef.set(userData)
+                        .addOnSuccessListener {
+                            Log.d(TAG, "User data successfully written!")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w(TAG, "Error writing document", e)
+                        }
+                }
+
+                // 로그인 후 메인 액티비티로 이동
+                val intent = Intent(this, Nav_mainActivity::class.java)
+                startActivity(intent)
+                Log.d(TAG, "User is logged in with uid: ${user.uid}")
+            }.addOnFailureListener { e ->
+                Log.w(TAG, "Error getting document", e)
+            }
         } else {
-            // 사용자가 로그인되어 있지 않은 상태
-            // 로그인 UI 표시
             Log.d(TAG, "User is not logged in")
         }
     }
+
+
 
     companion object {
         private const val TAG = "MainActivity"

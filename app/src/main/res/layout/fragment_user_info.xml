@@ -39,6 +39,12 @@
         android:shadowRadius="10"
         android:shadowDy="1"
         android:layout_gravity="center"/>
+    <Button
+        android:id="@+id/uploadBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이미지 업로드"
+        android:background="@drawable/button_border"/>
 
     <LinearLayout
         android:id="@+id/enrollInfo"
