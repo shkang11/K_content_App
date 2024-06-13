@@ -6,23 +6,20 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,6 +28,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 class UserInfoFragment : Fragment() {
+
     private lateinit var userRecyclerView: RecyclerView
     private lateinit var reviewAdapter: ReviewAdapter
     private lateinit var bookmarkAdapter: RVAdapter
@@ -46,14 +44,19 @@ class UserInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_user_info, container, false)
+
+        // Initialize Firebase Authentication
         auth = Firebase.auth
 
+        // Initialize RecyclerView and Adapters
         userRecyclerView = view.findViewById(R.id.userReviewList)
         userRecyclerView.layoutManager = LinearLayoutManager(context)
         reviewAdapter = ReviewAdapter(mutableListOf())
         bookmarkAdapter = RVAdapter(requireContext(), mutableListOf())
 
+        // Set up click listeners
         view.findViewById<LinearLayout>(R.id.manage_bookmark).setOnClickListener {
             displayBookmarks()
         }
@@ -61,9 +64,6 @@ class UserInfoFragment : Fragment() {
         view.findViewById<LinearLayout>(R.id.manage_review).setOnClickListener {
             displayReviews()
         }
-
-        // Default view
-        displayBookmarks()
 
         view.findViewById<LinearLayout>(R.id.enrollInfo).setOnClickListener {
             showUserInfoDialog()
@@ -73,16 +73,24 @@ class UserInfoFragment : Fragment() {
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
+            startActivityForResult(
+                Intent.createChooser(intent, "Select Picture"),
+                PICK_IMAGE_REQUEST
+            )
         }
 
         view.findViewById<Button>(R.id.btn1).setOnClickListener {
             it.findNavController().navigate(R.id.action_userInfoFragment_to_searchingFragment)
         }
 
+        // Display default view
+        displayBookmarks()
+
+        // Set user information
         view.findViewById<TextView>(R.id.userid).text = "@" + auth.currentUser!!.uid
         view.findViewById<TextView>(R.id.username).text = auth.currentUser!!.displayName
 
+        // Load user profile image
         setUserProfileImage(view.findViewById(R.id.img_user))
 
         return view
@@ -135,7 +143,7 @@ class UserInfoFragment : Fragment() {
                     reviewAdapter.updateReviews(reviews)
                 }
                 .addOnFailureListener { exception ->
-                    // 실패 시 처리
+                    // Handle failure
                 }
         }
     }
@@ -152,12 +160,12 @@ class UserInfoFragment : Fragment() {
                         val dramaTitle = document.getString("dramaTitle") ?: ""
                         val imageUrl = document.getString("imageUrl") ?: ""
                         val location = document.getString("location") ?: ""
-                        bookmarks.add(SearchModel(imageUrl,dramaTitle,location))
+                        bookmarks.add(SearchModel(imageUrl, dramaTitle, location))
                     }
                     bookmarkAdapter.updateBookmarks(bookmarks)
                 }
                 .addOnFailureListener { exception ->
-                    // 실패 시 처리
+                    // Handle failure
                 }
         }
     }
@@ -206,7 +214,8 @@ class UserInfoFragment : Fragment() {
 
     private fun uploadImage() {
         if (filePath != null) {
-            val ref = storage.reference.child("images/${auth.currentUser!!.uid}/${System.currentTimeMillis()}")
+            val ref =
+                storage.reference.child("images/${auth.currentUser!!.uid}/${System.currentTimeMillis()}")
             val uploadTask = ref.putFile(filePath!!)
 
             uploadTask.addOnSuccessListener {
@@ -218,11 +227,11 @@ class UserInfoFragment : Fragment() {
                             setUserProfileImage(requireView().findViewById(R.id.img_user))
                         }
                         .addOnFailureListener { e ->
-                            // 이미지 URL 저장 실패 시 처리
+                            // Handle failure to save image URL
                         }
                 }
             }.addOnFailureListener { e ->
-                // 업로드 실패 시 처리
+                // Handle upload failure
             }
         }
     }
@@ -245,7 +254,8 @@ class UserInfoFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.review_item, parent, false)
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.review_item, parent, false)
             return ReviewViewHolder(view)
         }
 
