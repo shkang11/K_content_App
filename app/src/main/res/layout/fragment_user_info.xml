@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserInfoFragment"
     android:orientation="vertical">
+
 
     <ImageView
         android:layout_gravity="center"
@@ -14,32 +16,29 @@
         android:layout_height="150dp"
         android:layout_marginTop="60dp"
         android:src="@drawable/userimg" />
-
     <TextView
         android:id="@+id/username"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="user 1"
+        android:text="uesr 1"
         android:textSize="30sp"
         android:textStyle="bold"
         android:shadowColor="#8E8E8E"
         android:shadowRadius="10"
         android:shadowDy="15"
         android:layout_gravity="center"/>
-
     <TextView
         android:id="@+id/userid"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="30sp"
-        android:text="@user 1"
+        android:text="\@uesr 1"
         android:textSize="15sp"
         android:shadowColor="#8E8E8E"
         android:shadowRadius="10"
         android:shadowDy="1"
         android:layout_gravity="center"/>
-
     <Button
         android:id="@+id/uploadBtn"
         android:layout_width="wrap_content"
@@ -56,12 +55,10 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:id="@+id/userInfoView"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="fitXY"
             android:src="@drawable/email" />
-
         <TextView
             android:layout_marginLeft="10dp"
             android:shadowColor="#8E8E8E"
@@ -70,9 +67,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="가입 정보"/>
+
+
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/manage_review"
         android:background="#EAE7E7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,12 +80,10 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:id="@+id/manage_review"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="fitXY"
             android:src="@drawable/reviewimg" />
-
         <TextView
             android:layout_marginStart="10dp"
             android:layout_width="match_parent"
@@ -94,9 +92,11 @@
             android:shadowRadius="10"
             android:shadowDy="1"
             android:text="리뷰 관리"/>
-    </LinearLayout>
 
+
+    </LinearLayout>
     <LinearLayout
+        android:id="@+id/manage_bookmark"
         android:background="#EAE7E7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,12 +104,10 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:id="@+id/manage_bookmark"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="fitXY"
             android:src="@drawable/bookmark" />
-
         <TextView
             android:layout_marginStart="10dp"
             android:shadowColor="#8E8E8E"
@@ -118,8 +116,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="즐겨찾기 관리"/>
-    </LinearLayout>
 
+
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -152,6 +151,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="사용자정보"/>
+
         </LinearLayout>
+
     </RelativeLayout>
+
+
 </LinearLayout>
