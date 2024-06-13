@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -120,31 +121,45 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
 
-        userRef.get().addOnSuccessListener { document ->
-            val userImgUrl = document.getString("img") ?: "@drawable/userimg"
-            val displayName = document.getString("displayname") ?: "anonymous"
-            val location = intent.getStringExtra("location") ?: ""
-
-            val review = hashMapOf(
-                "title" to title,
-                "content" to content,
-                "uid" to userId,
-                "displayName" to displayName,
-                "location" to location,
-                "img" to userImgUrl,
-                "createdAt" to FieldValue.serverTimestamp()
-            )
-
-            FirebaseFirestore.getInstance().collection("reviews")
-                .add(review)
-                .addOnSuccessListener {
-                    // 리뷰 저장 성공 시 처리
+        // Get the current highest index value
+        FirebaseFirestore.getInstance().collection("reviews")
+            .orderBy("index", Query.Direction.DESCENDING)
+            .limit(1)
+            .get()
+            .addOnSuccessListener { documents ->
+                var newIndex = 0
+                if (!documents.isEmpty) {
+                    newIndex = documents.documents[0].getLong("index")?.toInt()?.plus(1) ?: 0
                 }
-                .addOnFailureListener {
-                    // 리뷰 저장 실패 시 처리
+
+                userRef.get().addOnSuccessListener { document ->
+                    val userImgUrl = document.getString("img") ?: "@drawable/userimg"
+                    val displayName = document.getString("displayname") ?: "anonymous"
+                    val location = intent.getStringExtra("location") ?: ""
+
+                    val review = hashMapOf(
+                        "title" to title,
+                        "content" to content,
+                        "uid" to userId,
+                        "displayName" to displayName,
+                        "location" to location,
+                        "img" to userImgUrl,
+                        "createdAt" to FieldValue.serverTimestamp(),
+                        "index" to newIndex
+                    )
+
+                    FirebaseFirestore.getInstance().collection("reviews")
+                        .add(review)
+                        .addOnSuccessListener {
+                            getReviewsFromFirestore() //리뷰 작성 성공 시 리뷰 바로 가져오기
+                        }
+                        .addOnFailureListener {
+                            // 리뷰 저장 실패 시 처리
+                        }
                 }
-        }
+            }
     }
+
 
     private fun getLatitudeLongitude(location: String) {
         val geocoder = Geocoder(this)
@@ -213,7 +228,9 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val db = FirebaseFirestore.getInstance()
         val location = intent.getStringExtra("location") ?: ""
         db.collection("reviews")
-            .whereEqualTo("location", location) // 현재 위치에 해당하는 리뷰만 가져오기
+            .whereEqualTo("location", location)
+            .orderBy("index", Query.Direction.DESCENDING) //최신 리뷰가 먼저 나오도록 (수정원하면 카톡하세요)
+            .orderBy(FieldPath.documentId(), Query.Direction.DESCENDING) // __name__ 필드를 내림차순으로 정렬
             .get()
             .addOnSuccessListener { result ->
                 val reviews = mutableListOf<Review>()
@@ -229,10 +246,11 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 reviewAdapter.updateReviews(reviews)
             }
             .addOnFailureListener { exception ->
-                // Error handling
+                // 오류 처리
             }
-
     }
+
+
 
     data class Review(
         val username: String,

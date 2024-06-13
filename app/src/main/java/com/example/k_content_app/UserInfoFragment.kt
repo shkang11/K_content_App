@@ -23,7 +23,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
@@ -129,6 +131,7 @@ class UserInfoFragment : Fragment() {
                 }
         }
     }
+
 
     private fun setUserProfileImage(imageView: ImageView) {
         val currentUserUid = Firebase.auth.currentUser?.uid
