@@ -122,7 +122,7 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         userRef.get().addOnSuccessListener { document ->
             val userImgUrl = document.getString("img") ?: "@drawable/userimg"
-            val displayName = document.getString("displayName") ?: "anonymous"
+            val displayName = document.getString("displayname") ?: "anonymous"
             val location = intent.getStringExtra("location") ?: ""
 
             val review = hashMapOf(
@@ -214,7 +214,6 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val location = intent.getStringExtra("location") ?: ""
         db.collection("reviews")
             .whereEqualTo("location", location) // 현재 위치에 해당하는 리뷰만 가져오기
-            .orderBy("createdAt", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 val reviews = mutableListOf<Review>()
