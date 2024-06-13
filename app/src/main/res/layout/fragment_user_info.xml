@@ -55,7 +55,6 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:id="@+id/uesrInfoView"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="fitXY"
@@ -73,6 +72,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/manage_review"
         android:background="#EAE7E7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,7 +80,6 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:id="@+id/manage_review"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="fitXY"
@@ -97,6 +96,7 @@
 
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/manage_bookmark"
         android:background="#EAE7E7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,7 +104,6 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:id="@+id/manage_bookmark"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="fitXY"

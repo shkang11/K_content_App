@@ -4,6 +4,7 @@ import RVAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import androidx.appcompat.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -44,6 +45,7 @@ class SearchActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.d("inputdataError", "Error getting documents: ", exception)
             }
+
     }
 
     private fun initializeAdapter(searchText: String?) {
