@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -50,20 +49,24 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         val view = inflater.inflate(R.layout.fragment_searching, container, false)
 
         resView = view.findViewById(R.id.searchcontent)
-        imageView = view.findViewById(R.id.imageSearchView)
+        imageView = view.findViewById(R.id.imageSearchBtn)
 
         // ImageModel 초기화
         imageModel = ImageModel(requireContext())
         imageModel.callback = this  // Set the callback
 
-        // UserInfoFragment로 이동하는 버튼
-        view.findViewById<Button>(R.id.btn2).setOnClickListener {
-            Log.d("Navigation", "Navigating to UserInfoFragment")
-            it.findNavController().navigate(R.id.action_searchingFragment_to_userInfoFragment)
+        // btn2가 imagebutton임을 확인하고 참조를 수정
+        val btn2 = view.findViewById<ImageButton>(R.id.btn2)
+        if (btn2 == null) {
+            Log.e("SearchingFragment", "btn2 is null")
+        } else {
+            btn2.setOnClickListener {
+                Log.d("SearchingFragment", "btn2 clicked")
+                it.findNavController().navigate(R.id.action_searchingFragment_to_userInfoFragment)
+            }
         }
 
-        // 검색 버튼
-        val searchButton = view.findViewById<Button>(R.id.searchbtn)
+        val searchButton = view.findViewById<ImageButton>(R.id.searchbtn)
         searchButton.setOnClickListener {
             val searchText = view.findViewById<EditText>(R.id.searchcontent).text.toString()
             Log.d("Search", "Search button clicked with text: $searchText")
@@ -73,7 +76,7 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         }
 
         // 이미지 검색 버튼
-        val imageSearchButton = view.findViewById<Button>(R.id.imageSearchBtn)
+        val imageSearchButton = view.findViewById<ImageButton>(R.id.imageSearchBtn)
         imageSearchButton.setOnClickListener {
             // 로그 추가
             Log.d("ImageSearch", "Click ImageSearch Button")

@@ -1,22 +1,31 @@
 package com.example.k_content_app
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 class UserInfoFragment : Fragment() {
     // RecyclerView 및 어댑터 선언
@@ -26,6 +35,10 @@ class UserInfoFragment : Fragment() {
 
     // Firestore 인스턴스 선언
     private val db = FirebaseFirestore.getInstance()
+    private val storage = Firebase.storage
+
+    private val PICK_IMAGE_REQUEST = 71
+    private var filePath: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,15 +55,41 @@ class UserInfoFragment : Fragment() {
         userReviewList.adapter = userReviewListAdapter
 
         // "enrollInfo"를 클릭했을 때 AlertDialog를 표시합니다.
-        view.findViewById<LinearLayout>(R.id.enrollInfo).setOnClickListener {
-            showUserInfoDialog()
-        }
+        view.findViewById<LinearLayout>(R.id.enrollInfo)?.let {
+            it.setOnClickListener {
+                showUserInfoDialog()
+            }
+        } ?: Log.e("UserInfoFragment", "enrollInfo is null")
 
-        view.findViewById<Button>(R.id.btn1).setOnClickListener {
-            it.findNavController().navigate(R.id.action_userInfoFragment_to_searchingFragment)
-        }
-        view.findViewById<TextView>(R.id.userid).setText("@"+auth.currentUser!!.uid)
-        view.findViewById<TextView>(R.id.username).setText(auth.currentUser!!.displayName)
+        // 업로드 버튼 클릭 시 갤러리에서 이미지 선택
+        view.findViewById<Button>(R.id.uploadBtn)?.let {
+            it.setOnClickListener {
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.action = Intent.ACTION_GET_CONTENT
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
+            }
+        } ?: Log.e("UserInfoFragment", "uploadBtn is null")
+
+        view.findViewById<Button>(R.id.btn1)?.let {
+            it.setOnClickListener {
+                it.findNavController().navigate(R.id.action_userInfoFragment_to_searchingFragment)
+            }
+        } ?: Log.e("UserInfoFragment", "btn1 is null")
+
+        view.findViewById<TextView>(R.id.userid)?.let {
+            it.text = "@" + (auth.currentUser?.uid ?: "unknown")
+        } ?: Log.e("UserInfoFragment", "userid is null")
+
+        view.findViewById<TextView>(R.id.username)?.let {
+            it.text = auth.currentUser?.displayName ?: "unknown"
+        } ?: Log.e("UserInfoFragment", "username is null")
+
+        // 프로필 이미지 설정
+        view.findViewById<ImageView>(R.id.img_user)?.let {
+            setUserProfileImage(it)
+        } ?: Log.e("UserInfoFragment", "img_user is null")
+
         // 사용자 리뷰 데이터 가져오기
         getReviewsForCurrentUser()
 
@@ -93,13 +132,88 @@ class UserInfoFragment : Fragment() {
                         val title = document.getString("title") ?: ""
                         val content = document.getString("content") ?: ""
                         val displayName = document.getString("displayName") ?: ""
-                        reviews.add(Review(displayName, title, content))
+                        val img = document.getString("img") ?: "@drawable/userimg"
+                        reviews.add(Review(displayName, title, content, img))
                     }
                     userReviewListAdapter.updateReviews(reviews)
                 }
                 .addOnFailureListener { exception ->
-                    // 실패 시 처리
+                    Log.e("UserInfoFragment", "Error getting reviews", exception)
                 }
+        }
+    }
+
+    private fun setUserProfileImage(imageView: ImageView) {
+        val currentUserUid = Firebase.auth.currentUser?.uid
+        if (currentUserUid != null) {
+            db.collection("users").document(currentUserUid).get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val imageUrl = document.getString("img")
+                        if (imageUrl != null && imageUrl.isNotEmpty()) {
+                            // 이미지 URL이 존재하면 Glide를 사용하여 이미지뷰에 설정
+                            Glide.with(this)
+                                .load(imageUrl)
+                                .apply(RequestOptions.bitmapTransform(CircleCrop()))
+                                .into(imageView)
+                        } else {
+                            // URL이 없으면 기본 이미지 설정
+                            imageView.setImageResource(R.drawable.userimg)
+                        }
+                    } else {
+                        // 문서가 없으면 기본 이미지 설정
+                        imageView.setImageResource(R.drawable.userimg)
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("UserInfoFragment", "Error setting profile image", exception)
+                    imageView.setImageResource(R.drawable.userimg)
+                }
+        } else {
+            // 사용자 UID가 없으면 기본 이미지 설정
+            imageView.setImageResource(R.drawable.userimg)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+            filePath = data.data
+            // Show confirmation dialog
+            AlertDialog.Builder(requireContext())
+                .setTitle("프로필 사진 설정")
+                .setMessage("선택하신 사진으로 프로필로 설정 하시겠습니까?")
+                .setPositiveButton("Yes") { dialog, which ->
+                    uploadImage()
+                }
+                .setNegativeButton("No", null)
+                .show()
+        }
+    }
+
+    private fun uploadImage() {
+        if (filePath != null) {
+            val ref = storage.reference.child("images/${auth.currentUser!!.uid}/${System.currentTimeMillis()}")
+            val uploadTask = ref.putFile(filePath!!)
+
+            uploadTask.addOnSuccessListener {
+                // 이미지 업로드 성공 시 Firestore에 URL 저장
+                ref.downloadUrl.addOnSuccessListener { uri ->
+                    val imageUrl = uri.toString()
+                    // 'users' 컬렉션의 'img' 필드에 이미지 URL 저장
+                    db.collection("users").document(auth.currentUser!!.uid)
+                        .update("img", imageUrl)
+                        .addOnSuccessListener {
+                            // 이미지 URL 저장 성공 시 처리
+                            setUserProfileImage(requireView().findViewById(R.id.img_user))
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("UserInfoFragment", "Error updating image URL", e)
+                        }
+                }
+            }.addOnFailureListener { e ->
+                Log.e("UserInfoFragment", "Error uploading image", e)
+            }
         }
     }
 
@@ -107,7 +221,8 @@ class UserInfoFragment : Fragment() {
     data class Review(
         val displayName: String,
         val title: String,
-        val content: String
+        val content: String,
+        val img: String
     )
 
     // 리뷰 어댑터
@@ -119,6 +234,7 @@ class UserInfoFragment : Fragment() {
             val usernameTextView: TextView = itemView.findViewById(R.id.usernameTextView)
             val reviewTitleTextView: TextView = itemView.findViewById(R.id.ReviewTitle)
             val commentTextView: TextView = itemView.findViewById(R.id.commentTextView)
+            val userImageView: ImageView = itemView.findViewById(R.id.userprofileImage)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
@@ -132,6 +248,14 @@ class UserInfoFragment : Fragment() {
             holder.usernameTextView.text = review.displayName
             holder.reviewTitleTextView.text = review.title
             holder.commentTextView.text = review.content
+            if (review.img != "@drawable/userimg") {
+                Glide.with(holder.itemView.context)
+                    .load(review.img)
+                    .circleCrop() // 이미지 동그랗게 자르기
+                    .into(holder.userImageView)
+            } else {
+                holder.userImageView.setImageResource(R.drawable.userimg)
+            }
         }
 
         override fun getItemCount(): Int {
