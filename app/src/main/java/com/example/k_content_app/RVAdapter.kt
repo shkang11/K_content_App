@@ -1,5 +1,4 @@
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,10 +49,6 @@ class RVAdapter(
             val rv_title = itemView.findViewById<TextView>(R.id.rvtextArea)
             val rv_location = itemView.findViewById<TextView>(R.id.rvlocationArea)
             val rv_bookmark = itemView.findViewById<ImageButton>(R.id.bookmark_img)
-
-            // 이미지 URL 디버깅 로그
-            Log.d("RVAdapter", "Loading image URL: ${item.imageUrl}")
-
             Glide.with(context)
                 .load(item.imageUrl)
                 .into(rv_img)
