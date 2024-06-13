@@ -93,6 +93,8 @@ class UserInfoFragment : Fragment() {
         // Load user profile image
         setUserProfileImage(view.findViewById(R.id.img_user))
 
+        // Load user cash
+        setUserCash(view.findViewById(R.id.user_cash))
         return view
     }
 
@@ -196,6 +198,25 @@ class UserInfoFragment : Fragment() {
             imageView.setImageResource(R.drawable.userimg)
         }
     }
+
+    private fun setUserCash(textView: TextView) {
+        val currentUserUid = Firebase.auth.currentUser?.uid
+        if (currentUserUid != null) {
+            db.collection("users").document(currentUserUid).get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val cash = document.getLong("cash") ?: -1
+                        textView.text = cash.toString()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    textView.text = "error"
+                }
+        } else {
+            textView.text = "error"
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
