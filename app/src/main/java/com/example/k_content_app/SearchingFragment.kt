@@ -2,6 +2,7 @@ package com.example.k_content_app
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -29,13 +30,15 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
     private var uploadChooser: UploadChooser? = null
 
     private val FILE_NAME = "picture.jpg"
+    private lateinit var photoFile: File
 
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
             val uri = result.data?.data
-            uri?.let {
+            if (uri != null) {
+                // Handle gallery image
                 try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, it)
+                    val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
                     imageView?.setImageBitmap(bitmap)
                     imageModel.modelActivity(bitmap)
                     uploadChooser?.dismiss()
@@ -43,8 +46,17 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
                 } catch (e: Exception) {
                     Log.e("ImageSearch", "Error loading image", e)
                 }
-            } ?: run {
-                Log.e("ImageSearch", "Uri is null")
+            } else {
+                // Handle camera image
+                try {
+                    val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+                    imageView?.setImageBitmap(bitmap)
+                    imageModel.modelActivity(bitmap)
+                    uploadChooser?.dismiss()
+                    Log.d("ImageSearch", "Image captured and processed successfully")
+                } catch (e: Exception) {
+                    Log.e("ImageSearch", "Error loading image", e)
+                }
             }
         } else {
             Log.e("ImageSearch", "Result not OK")
@@ -58,7 +70,6 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         resView = view.findViewById(R.id.searchcontent)
         imageView = view.findViewById(R.id.imageSearchView)
 
-
         // ImageModel 초기화
         imageModel = ImageModel(requireContext())
         imageModel.callback = this  // Set the callback
@@ -68,23 +79,22 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         imageSearchButton.setOnClickListener {
             // 로그 추가
             Log.d("ImageSearch", "Click ImageSearch Button")
-           // UploadChooser().show(parentFragmentManager, "UploadChooser")
-           uploadChooser =  UploadChooser().apply {
-                addInterface(object :UploadChooser.UploadChooserInterface{
+            // UploadChooser().show(parentFragmentManager, "UploadChooser")
+            uploadChooser = UploadChooser().apply {
+                addInterface(object : UploadChooser.UploadChooserInterface {
                     override fun cameraOnClick() {
-                        Log.d("upload","cameraOnClick")
+                        Log.d("upload", "cameraOnClick")
                         openCamera()
                     }
 
                     override fun galleryOnClick() {
-                        Log.d("upload","galleryOnclick")
+                        Log.d("upload", "galleryOnClick")
                         callImageSearch()
                     }
-                    })
-                }
-                uploadChooser!!.show(parentFragmentManager, "UploadChooser")
+                })
             }
-
+            uploadChooser!!.show(parentFragmentManager, "UploadChooser")
+        }
 
         // UserInfoFragment로 이동하는 버튼
         view.findViewById<Button>(R.id.btn2).setOnClickListener {
@@ -110,20 +120,20 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         resView?.text = result
 
         // 이미지 선택 후 검색 결과를 확인 하지 않고, 바로 다음 Step으로 넘기고 싶을 때
-//        val searchText = result
-//        val intent = Intent(activity, SearchActivity::class.java)
-//        intent.putExtra("searchText", searchText)
-//        startActivity(intent)
+        // val searchText = result
+        // val intent = Intent(activity, SearchActivity::class.java)
+        // intent.putExtra("searchText", searchText)
+        // startActivity(intent)
     }
 
     private fun openCamera() {
-        val photoUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", createCameraFile())
+        photoFile = createCameraFile()
+        val photoUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", photoFile)
         // 이후 카메라 인텐트를 사용한 코드 추가
-       val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            imagePickerLauncher.launch(intent)
-
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        imagePickerLauncher.launch(intent)
     }
 
     private fun createCameraFile(): File {
