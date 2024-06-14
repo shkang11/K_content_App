@@ -3,6 +3,7 @@ package com.example.k_content_app
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,7 +16,9 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.navigation.findNavController
+import java.io.File
 
 class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
 
@@ -24,6 +27,8 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
     private var resView: TextView? = null
     private var imageView: ImageView? = null
     private var uploadChooser: UploadChooser? = null
+
+    private val FILE_NAME = "picture.jpg"
 
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
@@ -68,6 +73,7 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
                 addInterface(object :UploadChooser.UploadChooserInterface{
                     override fun cameraOnClick() {
                         Log.d("upload","cameraOnClick")
+                        openCamera()
                     }
 
                     override fun galleryOnClick() {
@@ -108,6 +114,21 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
 //        val intent = Intent(activity, SearchActivity::class.java)
 //        intent.putExtra("searchText", searchText)
 //        startActivity(intent)
+    }
+
+    private fun openCamera() {
+        val photoUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", createCameraFile())
+        // 이후 카메라 인텐트를 사용한 코드 추가
+       val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            imagePickerLauncher.launch(intent)
+
+    }
+
+    private fun createCameraFile(): File {
+        val dir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File(dir, FILE_NAME)
     }
 
     fun callImageSearch() {
