@@ -2,6 +2,7 @@ package com.example.k_content_app
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.Image
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -23,7 +24,8 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
     private lateinit var imageModel: ImageModel
 
     private var resView: TextView? = null
-    private var imageView: ImageView? = null
+    private var imageBtn: ImageButton? = null
+    private var imageView : ImageView? = null
 
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
@@ -48,9 +50,10 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // 레이아웃을 인플레이트 합니다.
         val view = inflater.inflate(R.layout.fragment_searching, container, false)
-
+        imageView = view.findViewById(R.id.imageView6)
         resView = view.findViewById(R.id.searchcontent)
-        imageView = view.findViewById(R.id.imageSearchBtn) // 여기 잠시
+        imageBtn = view.findViewById(R.id.imageSearchBtn) // 여기 잠시
+
 
         // ImageModel 초기화
         imageModel = ImageModel(requireContext())
