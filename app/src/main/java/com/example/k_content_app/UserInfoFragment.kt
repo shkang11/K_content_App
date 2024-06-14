@@ -109,6 +109,15 @@ class UserInfoFragment : Fragment() {
     private fun displayBookmarks() {
         userRecyclerView.adapter = bookmarkAdapter
         getBookmarksForCurrentUser()
+
+        bookmarkAdapter.setOnItemClickListener { selectedItem ->
+            val intent = Intent(requireContext(), DramaDetailActivity::class.java).apply {
+                putExtra("image", selectedItem.imageUrl)
+                putExtra("title", selectedItem.dramaTitle)
+                putExtra("location", selectedItem.location)
+            }
+            startActivity(intent)
+        }
     }
 
     private fun displayReviews() {
