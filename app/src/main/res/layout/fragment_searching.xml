@@ -81,11 +81,20 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"/>
 
+    <!-- 응모 or 당첨자 발표 버튼 추가 -->
+    <Button
+        android:id="@+id/applyOrAnnounceButton"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:text="응모  or  당첨자 발표"
+        android:layout_gravity="center"
+        android:layout_marginTop="0dp"/>
+
     <!-- 하단 네비게이션 바 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="0dp"
         android:orientation="horizontal">
 
         <ImageButton
@@ -112,6 +121,4 @@
             android:background="@android:color/white"
             android:src="@drawable/nv_search_icon" />
     </LinearLayout>
-
-
 </LinearLayout>

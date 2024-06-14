@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -87,6 +88,13 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         val quizButton = view.findViewById<ImageButton>(R.id.quizButton)
         quizButton.setOnClickListener {
             val intent = Intent(activity, GameDescriptionActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 응모 or 당첨자 발표 버튼
+        val applyOrAnnounceButton = view.findViewById<Button>(R.id.applyOrAnnounceButton)
+        applyOrAnnounceButton.setOnClickListener {
+            val intent = Intent(activity, ApplyActivity::class.java)
             startActivity(intent)
         }
 
