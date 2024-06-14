@@ -92,19 +92,23 @@
         android:layout_marginBottom="50dp"
         android:padding="16dp">
 
-        <!-- 길찾기 버튼 -->
-        <Button
+        <!-- 길찾기 이미지 버튼 -->
+        <ImageButton
             android:id="@+id/navigationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="길찾기" />
+            android:src="@drawable/direction_finder"
+            android:contentDescription="길찾기 버튼"
+            android:background="@android:color/transparent"/>
 
-        <!-- 리뷰 작성 버튼 -->
-        <Button
+        <!-- 리뷰 작성 이미지 버튼 -->
+        <ImageButton
             android:id="@+id/writeReviewButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="리뷰 작성"
-            android:layout_marginLeft="50dp" />
+            android:src="@drawable/review_btn"
+            android:contentDescription="리뷰 작성 버튼"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="50dp"/>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
