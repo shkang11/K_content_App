@@ -41,19 +41,6 @@ class ImageModel(private val context: Context) {
         return assetManager.open(fileName).bufferedReader().useLines { it.toList() }
     }
 
-    // 이미지 검색 메서드
-    fun callImageSearch(activity: SearchingFragment) {
-        Log.d("call", "successCallImage ")
-        imageSelect(activity)
-    }
-
-    fun imageSelect(activity: SearchingFragment) {
-        val intent = Intent()
-        intent.setAction(Intent.ACTION_GET_CONTENT)
-        intent.setType("image/*")
-        Log.d("selectImage", "selectImage ")
-        activity.startActivityForResult(intent, 100)
-    }
 
     fun modelActivity(bitmap: Bitmap) {
         var tensorImage = TensorImage(DataType.FLOAT32)
@@ -81,6 +68,4 @@ class ImageModel(private val context: Context) {
         callback?.onImageSearchResult(resultLabel)  // Call the callback with the result
         model.close()
     }
-
-
 }

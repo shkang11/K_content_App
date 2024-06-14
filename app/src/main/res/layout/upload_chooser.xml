@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn1"
+        android:id="@+id/upload_camera"
         android:layout_width="match_parent"
         android:layout_height="69dp"
         android:gravity="center"
@@ -14,7 +14,7 @@
         />
 
     <Button
-        android:id="@+id/btn2"
+        android:id="@+id/upload_gallery"
         android:layout_width="match_parent"
         android:layout_height="69dp"
         android:gravity="center"

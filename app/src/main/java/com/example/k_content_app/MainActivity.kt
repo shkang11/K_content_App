@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -83,6 +84,7 @@ class MainActivity : AppCompatActivity() {
             signIn()
         }
     }
+
 
     private fun signIn() {
         // Google 로그인 옵션 설정
