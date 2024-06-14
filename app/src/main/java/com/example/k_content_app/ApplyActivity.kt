@@ -32,13 +32,13 @@ class ApplyActivity : AppCompatActivity() {
 
         // 특정 날짜와 시간을 설정
         val pickWinnerTime = Calendar.getInstance()
-        pickWinnerTime.set(Calendar.HOUR_OF_DAY, 19)
-        pickWinnerTime.set(Calendar.MINUTE, 5)
+        pickWinnerTime.set(Calendar.HOUR_OF_DAY, 17)
+        pickWinnerTime.set(Calendar.MINUTE, 30)
         pickWinnerTime.set(Calendar.SECOND, 0)
 
         val clearEntriesTime = Calendar.getInstance()
-        clearEntriesTime.set(Calendar.HOUR_OF_DAY, 19)
-        clearEntriesTime.set(Calendar.MINUTE, 10)
+        clearEntriesTime.set(Calendar.HOUR_OF_DAY, 17)
+        clearEntriesTime.set(Calendar.MINUTE, 35)
         clearEntriesTime.set(Calendar.SECOND, 0)
 
         // 현재 시간과 비교하여 버튼 활성화 상태 설정
@@ -63,7 +63,7 @@ class ApplyActivity : AppCompatActivity() {
         val currentTime = Calendar.getInstance()
         if (currentTime.time.before(pickWinnerTime.time)) {
             announceButton.isEnabled = false
-            announceButton.text = "당첨자 발표는 오후 7시 5분 이후에 가능합니다."
+            announceButton.text = "당첨자 발표는 오후 5시 30분~35분 사이입니다."
             applyButton.isEnabled = true
         } else if (currentTime.time.after(pickWinnerTime.time) && currentTime.time.before(clearEntriesTime.time)) {
             announceButton.isEnabled = true
