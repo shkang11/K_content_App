@@ -95,24 +95,50 @@ class RVAdapter(
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             val db = FirebaseFirestore.getInstance()
-            val bookmark = hashMapOf(
-                "dramaTitle" to item.dramaTitle,
-                "imageUrl" to item.imageUrl,
-                "location" to item.location,
-                "userId" to user.uid
-            )
-            db.collection("bookmark")
-                .add(bookmark)
-                .addOnSuccessListener {
-                    Toast.makeText(context, "북마크에 저장됨", Toast.LENGTH_SHORT).show()
+            val bookmarkRef = db.collection("bookmark")
+                .whereEqualTo("dramaTitle", item.dramaTitle)
+                .whereEqualTo("userId", user.uid)
+
+            bookmarkRef.get()
+                .addOnSuccessListener { documents ->
+                    if (!documents.isEmpty) {
+                        // 북마크가 존재하면 삭제
+                        for (document in documents) {
+                            db.collection("bookmark").document(document.id)
+                                .delete()
+                                .addOnSuccessListener {
+                                    Toast.makeText(context, "북마크가 해제되었습니다", Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnFailureListener { e ->
+                                    Toast.makeText(context, "북마크 해제 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                    } else {
+                        // 북마크가 존재하지 않으면 추가
+                        val bookmark = hashMapOf(
+                            "dramaTitle" to item.dramaTitle,
+                            "imageUrl" to item.imageUrl,
+                            "location" to item.location,
+                            "userId" to user.uid
+                        )
+                        db.collection("bookmark")
+                            .add(bookmark)
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "북마크에 저장됨", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(context, "북마크 저장 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(context, "북마크 저장 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "북마크 확인 실패: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         } else {
             Toast.makeText(context, "로그인이 필요합니다", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     fun updateBookmarks(newBookmarks: List<SearchModel>) {
         originalList.clear()
