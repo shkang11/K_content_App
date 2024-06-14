@@ -19,13 +19,14 @@
 
         <ImageButton
             android:id="@+id/imageButton5"
-            android:layout_width="47dp"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@android:color/white"
             android:src="@drawable/menu_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="목록을 보여줌" />
 
         <ImageView
             android:id="@+id/main_logo"
@@ -40,6 +41,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 검색 레이아웃 -->
@@ -57,7 +59,7 @@
         <EditText
             android:id="@+id/searchcontent"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:hint="Search"
             app:layout_constraintEnd_toStartOf="@+id/imageSearchBtn"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,23 +68,25 @@
 
         <ImageButton
             android:id="@+id/imageSearchBtn"
-            android:layout_width="47dp"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@drawable/rounded_edittext_background"
             android:src="@drawable/search_camera_icon"
             app:layout_constraintEnd_toStartOf="@+id/searchbtn"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="누르면 카메라 or 사진첩 양자택일로 이동"/>
 
         <ImageButton
             android:id="@+id/searchbtn"
-            android:layout_width="51dp"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@drawable/rounded_edittext_background"
             android:src="@drawable/nv_search_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="검색할 때 쓰는 버튼"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 이미지 뷰 -->
@@ -94,7 +98,8 @@
         android:src="@drawable/image_search"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout11"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="사진첩에서 사진선택 or 카메라로 사진찍었을 때 그 사진을 띄움" />
 
     <!-- 퀴즈로 넘어가는 이미지 버튼 추가 -->
     <ImageButton
@@ -105,19 +110,21 @@
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/imageView6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="퀴즈 설명 액티비티로 넘어가는 버튼"/>
 
-    <!-- 응모 or 당첨자 발표 버튼 추가 -->
-    <Button
-        android:id="@+id/applyOrAnnounceButton"
-        android:layout_width="350dp"
+    <!-- 응모 or 당첨자 발표 버튼을 이벤트 이미지 버튼으로 변경 -->
+    <ImageButton
+        android:id="@+id/eventButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="응모  or  당첨자 발표"
+        android:src="@drawable/event_icon"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/quizButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="이벤트 버튼" />
     <!-- 하단 네비게이션 바 -->
     <LinearLayout
         android:id="@+id/bottomNavigationBar"
@@ -134,7 +141,8 @@
             android:layout_height="46dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:src="@drawable/nv_user_icon" />
+            android:src="@drawable/nv_user_icon"
+            android:contentDescription="마이페이지로 이동"/>
 
         <ImageButton
             android:id="@+id/btn3"
@@ -142,7 +150,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:src="@drawable/nv_home_icon" />
+            android:src="@drawable/nv_home_icon"
+            android:contentDescription="홈화면으로 이동"/>
 
         <ImageButton
             android:id="@+id/btn1"
@@ -150,6 +159,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:src="@drawable/nv_search_icon" />
+            android:src="@drawable/nv_search_icon"
+            android:contentDescription="검색화면으로 이동"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

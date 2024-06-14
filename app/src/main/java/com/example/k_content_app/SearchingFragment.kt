@@ -125,9 +125,9 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
             startActivity(intent)
         }
 
-        // 응모 or 당첨자 발표 버튼
-        val applyOrAnnounceButton = view.findViewById<Button>(R.id.applyOrAnnounceButton)
-        applyOrAnnounceButton.setOnClickListener {
+        // 이벤트 버튼 ApplyActivity로 넘어가는
+        val eventButton = view.findViewById<ImageButton>(R.id.eventButton)
+        eventButton.setOnClickListener {
             val intent = Intent(activity, ApplyActivity::class.java)
             startActivity(intent)
         }

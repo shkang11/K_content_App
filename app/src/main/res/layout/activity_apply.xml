@@ -4,29 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#B5DFE3">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="응모하기 한번당 50캐시 차감
-당첨자 발표 시간 외에 응모 가능"
+        android:text="응모하기 (50캐시 차감)"
         android:textSize="24sp"
-        android:layout_gravity="center"
-        android:padding="16dp" />
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="응모할 때는 50캐시가 차감됩니다."
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:padding="8dp"/>
 
     <Button
         android:id="@+id/applyButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="응모하기"
-        android:layout_gravity="center" />
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/announceButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="당첨자 발표"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#FFC107"
+        android:textColor="#FFFFFF" />
+
 </LinearLayout>

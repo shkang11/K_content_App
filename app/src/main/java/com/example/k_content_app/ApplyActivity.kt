@@ -63,18 +63,21 @@ class ApplyActivity : AppCompatActivity() {
         val currentTime = Calendar.getInstance()
         if (currentTime.time.before(pickWinnerTime.time)) {
             announceButton.isEnabled = false
-            announceButton.text = "당첨자 발표는 오전 4시 46분~50분 사이입니다."
+            announceButton.text = "당첨자 발표"
             applyButton.isEnabled = true
+            applyButton.text = "응모하기"
         } else if (currentTime.time.after(pickWinnerTime.time) && currentTime.time.before(clearEntriesTime.time)) {
             announceButton.isEnabled = true
             applyButton.isEnabled = false
-            applyButton.text = "응모 기간이 종료되었습니다."
+            applyButton.text = "응모 기간 종료"
         } else {
             announceButton.isEnabled = false
-            announceButton.text = "다음 응모를 기다려주세요."
+            announceButton.text = "당첨자 발표 종료"
             applyButton.isEnabled = true
+            applyButton.text = "응모하기"
         }
     }
+
 
     private fun setAlarms(pickWinnerTime: Calendar, clearEntriesTime: Calendar) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -142,10 +145,10 @@ class ApplyActivity : AppCompatActivity() {
         )
         db.collection("entries").add(entry)
             .addOnSuccessListener {
-                Toast.makeText(this, "응모가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "응모 완료", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "응모에 실패했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "응모 실패: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 }
