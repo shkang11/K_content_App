@@ -49,7 +49,8 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
             } else {
                 // Handle camera image
                 try {
-                    val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+                    val photoUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", photoFile)
+                    val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, photoUri)
                     imageView?.setImageBitmap(bitmap)
                     imageModel.modelActivity(bitmap)
                     uploadChooser?.dismiss()
