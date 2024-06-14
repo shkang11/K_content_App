@@ -2,8 +2,6 @@ package com.example.k_content_app
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.media.Image
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -29,7 +27,7 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
 
     private var resView: TextView? = null
     private var imageBtn: ImageButton? = null
-    private var imageView : ImageView? = null
+    private var imageView: ImageView? = null
     private var uploadChooser: UploadChooser? = null
 
     private val FILE_NAME = "picture.jpg"
@@ -72,8 +70,7 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         val view = inflater.inflate(R.layout.fragment_searching, container, false)
         imageView = view.findViewById(R.id.imageView6)
         resView = view.findViewById(R.id.searchcontent)
-        imageBtn = view.findViewById(R.id.imageSearchBtn) // 여기 잠시
-
+        imageBtn = view.findViewById(R.id.imageSearchBtn)
 
         // ImageModel 초기화
         imageModel = ImageModel(requireContext())
@@ -88,8 +85,10 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
                 Log.d("SearchingFragment", "btn2 clicked")
                 it.findNavController().navigate(R.id.action_searchingFragment_to_userInfoFragment)
             }
+        }
+
         // 이미지 검색 버튼
-        val imageSearchButton = view.findViewById<Button>(R.id.imageSearchBtn)
+        val imageSearchButton = view.findViewById<ImageButton>(R.id.imageSearchBtn)
         imageSearchButton.setOnClickListener {
             // 로그 추가
             Log.d("ImageSearch", "Click ImageSearch Button")
@@ -108,12 +107,6 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
                 })
             }
             uploadChooser!!.show(parentFragmentManager, "UploadChooser")
-        }
-
-        // UserInfoFragment로 이동하는 버튼
-        view.findViewById<Button>(R.id.btn2).setOnClickListener {
-            Log.d("Navigation", "Navigating to UserInfoFragment")
-            it.findNavController().navigate(R.id.action_searchingFragment_to_userInfoFragment)
         }
 
         val searchButton = view.findViewById<ImageButton>(R.id.searchbtn)
@@ -168,12 +161,12 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         return File(dir, FILE_NAME)
     }
 
-    fun callImageSearch() {
+    private fun callImageSearch() {
         Log.d("ImageSearch", "callImageSearch called")
         imageSelect()
     }
 
-    fun imageSelect() {
+    private fun imageSelect() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         Log.d("ImageSearch", "Launching image selector")
