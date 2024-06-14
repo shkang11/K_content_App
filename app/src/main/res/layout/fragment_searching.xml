@@ -93,7 +93,7 @@
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="280dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/image_search"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout11"
@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/event_icon"
         android:background="?android:attr/selectableItemBackground"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/quizButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

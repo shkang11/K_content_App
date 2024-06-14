@@ -5,42 +5,70 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:gravity="center"
     android:background="#B5DFE3">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- 맨 위에 cash_payment와 lucky_draw 이미지 나란히 배치 -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="응모하기 (50캐시 차감)"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:padding="16dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_marginBottom="16dp">
 
-    <TextView
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/cash_payment"
+            android:contentDescription="캐시 결제 설명 이미지" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/lucky_draw"
+            android:contentDescription="행운의 추첨 설명 이미지" />
+    </LinearLayout>
+
+    <!-- 응모 설명 이미지 -->
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="응모할 때는 50캐시가 차감됩니다."
-        android:textSize="16sp"
-        android:layout_gravity="center_horizontal"
-        android:padding="8dp"/>
+        android:src="@drawable/apply_description"
+        android:contentDescription="응모 설명 이미지"
+        android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/applyButton"
-        android:layout_width="match_parent"
+    <!-- 응모하기 버튼과 당첨자 발표 버튼을 가로로 배치 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="응모하기"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#4CAF50"
-        android:textColor="#FFFFFF" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="20dp">
 
-    <Button
-        android:id="@+id/announceButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="당첨자 발표"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#FFC107"
-        android:textColor="#FFFFFF" />
+        <!-- 응모하기 버튼 -->
+        <Button
+            android:id="@+id/applyButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="응모하기"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:layout_marginEnd="10dp" />
 
+        <!-- 당첨자 발표 버튼 -->
+        <Button
+            android:id="@+id/announceButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="당첨 확인"
+            android:backgroundTint="#FFC107"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -31,18 +32,21 @@ class ApplyActivity : AppCompatActivity() {
         val announceButton = findViewById<Button>(R.id.announceButton)
 
         // 특정 날짜와 시간을 설정
-        val pickWinnerTime = Calendar.getInstance()
-        pickWinnerTime.set(Calendar.HOUR_OF_DAY, 4)
-        pickWinnerTime.set(Calendar.MINUTE, 46)
-        pickWinnerTime.set(Calendar.SECOND, 0)
+        val pickWinnerTime = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 10)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }
 
-        val clearEntriesTime = Calendar.getInstance()
-        clearEntriesTime.set(Calendar.HOUR_OF_DAY, 4)
-        clearEntriesTime.set(Calendar.MINUTE, 50)
-        clearEntriesTime.set(Calendar.SECOND, 0)
+        val clearEntriesTime = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 10)
+            set(Calendar.MINUTE, 5)
+            set(Calendar.SECOND, 0)
+        }
 
         // 현재 시간과 비교하여 버튼 활성화 상태 설정
         updateButtonStates(applyButton, announceButton, pickWinnerTime, clearEntriesTime)
+        setAlarms(pickWinnerTime, clearEntriesTime)
 
         // 응모 버튼 클릭 리스너 설정
         applyButton.setOnClickListener {
@@ -51,33 +55,33 @@ class ApplyActivity : AppCompatActivity() {
 
         // 당첨자 발표 버튼 클릭 리스너 설정
         announceButton.setOnClickListener {
-            val intent = Intent(this, AnnounceActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, AnnounceActivity::class.java))
         }
-
-        // AlarmManager 설정
-        setAlarms(pickWinnerTime, clearEntriesTime)
     }
 
     private fun updateButtonStates(applyButton: Button, announceButton: Button, pickWinnerTime: Calendar, clearEntriesTime: Calendar) {
         val currentTime = Calendar.getInstance()
-        if (currentTime.time.before(pickWinnerTime.time)) {
-            announceButton.isEnabled = false
-            announceButton.text = "당첨자 발표"
-            applyButton.isEnabled = true
-            applyButton.text = "응모하기"
-        } else if (currentTime.time.after(pickWinnerTime.time) && currentTime.time.before(clearEntriesTime.time)) {
-            announceButton.isEnabled = true
-            applyButton.isEnabled = false
-            applyButton.text = "응모 기간 종료"
-        } else {
-            announceButton.isEnabled = false
-            announceButton.text = "당첨자 발표 종료"
-            applyButton.isEnabled = true
-            applyButton.text = "응모하기"
+        when {
+            currentTime.time.before(pickWinnerTime.time) -> {
+                announceButton.isEnabled = false
+                announceButton.setBackgroundColor(ContextCompat.getColor(this, R.color.disabled_button))
+                applyButton.isEnabled = true
+                applyButton.setBackgroundColor(ContextCompat.getColor(this, R.color.active_button))
+            }
+            currentTime.time.after(pickWinnerTime.time) && currentTime.time.before(clearEntriesTime.time) -> {
+                announceButton.isEnabled = true
+                announceButton.setBackgroundColor(ContextCompat.getColor(this, R.color.active_button))
+                applyButton.isEnabled = false
+                applyButton.setBackgroundColor(ContextCompat.getColor(this, R.color.disabled_button))
+            }
+            else -> {
+                announceButton.isEnabled = false
+                announceButton.setBackgroundColor(ContextCompat.getColor(this, R.color.disabled_button))
+                applyButton.isEnabled = true
+                applyButton.setBackgroundColor(ContextCompat.getColor(this, R.color.active_button))
+            }
         }
     }
-
 
     private fun setAlarms(pickWinnerTime: Calendar, clearEntriesTime: Calendar) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -122,18 +126,17 @@ class ApplyActivity : AppCompatActivity() {
                         val updatedCash = currentCash - 50
                         userDocRef.update("cash", updatedCash)
                             .addOnSuccessListener {
-                                // 응모 데이터 저장
                                 saveEntry(currentUser.uid)
                             }
                             .addOnFailureListener { e ->
-                                Toast.makeText(this, "Failed to update cash: ${e.message}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "캐시 업데이트 실패: ${e.message}", Toast.LENGTH_SHORT).show()
                             }
                     } else {
                         Toast.makeText(this, "캐시가 부족합니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }.addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to get user data: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "사용자 데이터 조회 실패: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
