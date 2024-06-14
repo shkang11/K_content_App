@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,74 +10,104 @@
     tools:context=".SearchingFragment">
 
     <!-- 상단 레이아웃 -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout11"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
+            android:id="@+id/imageButton5"
             android:layout_width="47dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
             android:background="@android:color/white"
-            android:src="@drawable/menu_icon" />
+            android:src="@drawable/menu_icon"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/main_logo"
             android:layout_width="315dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:src="@drawable/main_logo" />
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="13dp"
-        android:src="@drawable/logo_line" />
+            android:src="@drawable/main_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageButton5"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 검색 레이아웃 -->
-    <LinearLayout
+
+    <!-- 이미지 뷰 -->
+
+    <!-- 하단 네비게이션 바 -->
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="13dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/logo_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="15dp"
+        android:id="@+id/linearLayout11"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/rounded_edittext_background"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.618">
 
         <EditText
             android:id="@+id/searchcontent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Search" />
+            android:hint="Search"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
+            android:id="@+id/imageButton4"
             android:layout_width="47dp"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_edittext_background"
-            android:src="@drawable/search_camera_icon" />
+            android:src="@drawable/search_camera_icon"
+            app:layout_constraintEnd_toStartOf="@+id/searchbtn"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/searchbtn"
             android:layout_width="51dp"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_edittext_background"
-            android:src="@drawable/nv_search_icon" />
-    </LinearLayout>
+            android:src="@drawable/nv_search_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 이미지 뷰 -->
     <ImageView
+        android:id="@+id/imageView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/image_search" />
+        android:layout_marginBottom="264dp"
+        android:src="@drawable/image_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- 하단 네비게이션 바 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6">
 
         <ImageButton
             android:id="@+id/btn2"
@@ -100,6 +131,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:src="@drawable/nv_search_icon" />
+            android:src="@drawable/nv_search_icon"
+            app:layout_constraintEnd_toEndOf="parent" />
     </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
