@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,19 +58,19 @@ class UserInfoFragment : Fragment() {
         bookmarkAdapter = RVAdapter(requireContext(), mutableListOf())
 
         // Set up click listeners
-        view.findViewById<LinearLayout>(R.id.manage_bookmark).setOnClickListener {
+        view.findViewById<LinearLayout>(R.id.manage_bookmark)?.setOnClickListener {
             displayBookmarks()
         }
 
-        view.findViewById<LinearLayout>(R.id.manage_review).setOnClickListener {
+        view.findViewById<LinearLayout>(R.id.manage_review)?.setOnClickListener {
             displayReviews()
         }
 
-        view.findViewById<LinearLayout>(R.id.enrollInfo).setOnClickListener {
+        view.findViewById<LinearLayout>(R.id.enrollInfo)?.setOnClickListener {
             showUserInfoDialog()
         }
 
-        view.findViewById<Button>(R.id.uploadBtn).setOnClickListener {
+        view.findViewById<Button>(R.id.uploadBtn)?.setOnClickListener {
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
@@ -79,22 +80,29 @@ class UserInfoFragment : Fragment() {
             )
         }
 
-        view.findViewById<Button>(R.id.btn1).setOnClickListener {
+        view.findViewById<Button>(R.id.btn1)?.setOnClickListener {
             it.findNavController().navigate(R.id.action_userInfoFragment_to_searchingFragment)
         }
 
         // Display default view
         displayBookmarks()
 
-        // Set user information
-        view.findViewById<TextView>(R.id.userid).text = "@" + auth.currentUser!!.uid
-        view.findViewById<TextView>(R.id.username).text = auth.currentUser!!.displayName
+        // Check if user is authenticated
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            // Set user information
+            view.findViewById<TextView>(R.id.userid)?.text = "@" + currentUser.uid
+            view.findViewById<TextView>(R.id.username)?.text = currentUser.displayName
 
-        // Load user profile image
-        setUserProfileImage(view.findViewById(R.id.img_user))
+            // Load user profile image
+            setUserProfileImage(view.findViewById(R.id.img_user))
 
-        // Load user cash
-        setUserCash(view.findViewById(R.id.user_cash))
+            // Load user cash
+            setUserCash(view.findViewById(R.id.user_cash))
+        } else {
+            Log.e("UserInfoFragment", "User is not authenticated.")
+        }
+
         return view
     }
 
@@ -172,7 +180,7 @@ class UserInfoFragment : Fragment() {
         }
     }
 
-    private fun setUserProfileImage(imageView: ImageView) {
+    private fun setUserProfileImage(imageView: ImageView?) {
         val currentUserUid = Firebase.auth.currentUser?.uid
         if (currentUserUid != null) {
             db.collection("users").document(currentUserUid).get()
@@ -180,43 +188,44 @@ class UserInfoFragment : Fragment() {
                     if (document != null) {
                         val imageUrl = document.getString("img")
                         if (imageUrl != null && imageUrl.isNotEmpty()) {
-                            Glide.with(this)
-                                .load(imageUrl)
-                                .apply(RequestOptions.bitmapTransform(CircleCrop()))
-                                .into(imageView)
+                            imageView?.let {
+                                Glide.with(this)
+                                    .load(imageUrl)
+                                    .apply(RequestOptions.bitmapTransform(CircleCrop()))
+                                    .into(it)
+                            }
                         } else {
-                            imageView.setImageResource(R.drawable.userimg)
+                            imageView?.setImageResource(R.drawable.userimg)
                         }
                     } else {
-                        imageView.setImageResource(R.drawable.userimg)
+                        imageView?.setImageResource(R.drawable.userimg)
                     }
                 }
                 .addOnFailureListener { exception ->
-                    imageView.setImageResource(R.drawable.userimg)
+                    imageView?.setImageResource(R.drawable.userimg)
                 }
         } else {
-            imageView.setImageResource(R.drawable.userimg)
+            imageView?.setImageResource(R.drawable.userimg)
         }
     }
 
-    private fun setUserCash(textView: TextView) {
+    private fun setUserCash(textView: TextView?) {
         val currentUserUid = Firebase.auth.currentUser?.uid
         if (currentUserUid != null) {
             db.collection("users").document(currentUserUid).get()
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         val cash = document.getLong("cash") ?: -1
-                        textView.text = cash.toString()
+                        textView?.text = cash.toString()
                     }
                 }
                 .addOnFailureListener { exception ->
-                    textView.text = "error"
+                    textView?.text = "error"
                 }
         } else {
-            textView.text = "error"
+            textView?.text = "error"
         }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

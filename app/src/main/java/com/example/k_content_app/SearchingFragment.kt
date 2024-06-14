@@ -50,7 +50,7 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         val view = inflater.inflate(R.layout.fragment_searching, container, false)
 
         resView = view.findViewById(R.id.searchcontent)
-        imageView = view.findViewById(R.id.imageSearchBtn)
+        imageView = view.findViewById(R.id.imageSearchBtn) // 여기 잠시
 
         // ImageModel 초기화
         imageModel = ImageModel(requireContext())
@@ -77,12 +77,13 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         }
 
         // 이미지 검색 버튼
-        val imageSearchButton = view.findViewById<ImageButton>(R.id.imageSearchBtn)
+        val imageSearchButton = view.findViewById<ImageButton>(R.id.imageSearchBtn) // 여기잠시
         imageSearchButton.setOnClickListener {
             // 로그 추가
             Log.d("ImageSearch", "Click ImageSearch Button")
             callImageSearch(this)
         }
+
 
         // 퀴즈설명으로 넘어가는 이미지 버튼
         val quizButton = view.findViewById<ImageButton>(R.id.quizButton)
