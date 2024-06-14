@@ -49,6 +49,7 @@ class RVAdapter(
             val rv_title = itemView.findViewById<TextView>(R.id.rvtextArea)
             val rv_location = itemView.findViewById<TextView>(R.id.rvlocationArea)
             val rv_bookmark = itemView.findViewById<ImageButton>(R.id.bookmark_img)
+
             Glide.with(context)
                 .load(item.imageUrl)
                 .into(rv_img)
@@ -56,10 +57,31 @@ class RVAdapter(
             rv_title.text = item.dramaTitle
             rv_location.text = item.location
 
+            // 북마크 상태 확인하여 아이콘 설정
+            val user = FirebaseAuth.getInstance().currentUser
+            if (user != null) {
+                val db = FirebaseFirestore.getInstance()
+                db.collection("bookmark")
+                    .whereEqualTo("location", item.location)
+                    .whereEqualTo("userId", user.uid)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        if (!documents.isEmpty) {
+                            rv_bookmark.setImageResource(R.drawable.bookmarkon)  // 북마크된 아이콘
+                        } else {
+                            rv_bookmark.setImageResource(R.drawable.bookmark)  // 기본 아이콘
+                        }
+                    }
+                    .addOnFailureListener {
+                        rv_bookmark.setImageResource(R.drawable.bookmark)  // 기본 아이콘
+                    }
+            }
+
             rv_bookmark.setOnClickListener {
-                addBookmark(item)
+                addBookmark(item, rv_bookmark)
             }
         }
+
 
         init {
             itemView.setOnClickListener {
@@ -91,12 +113,12 @@ class RVAdapter(
         itemClickListener = listener
     }
 
-    private fun addBookmark(item: SearchModel) {
+    private fun addBookmark(item: SearchModel, bookmarkButton: ImageButton) {
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             val db = FirebaseFirestore.getInstance()
             val bookmarkRef = db.collection("bookmark")
-                .whereEqualTo("dramaTitle", item.dramaTitle)
+                .whereEqualTo("location", item.location)
                 .whereEqualTo("userId", user.uid)
 
             bookmarkRef.get()
@@ -108,6 +130,7 @@ class RVAdapter(
                                 .delete()
                                 .addOnSuccessListener {
                                     Toast.makeText(context, "북마크가 해제되었습니다", Toast.LENGTH_SHORT).show()
+                                    bookmarkButton.setImageResource(R.drawable.bookmark)  // 기본 아이콘으로 변경
                                 }
                                 .addOnFailureListener { e ->
                                     Toast.makeText(context, "북마크 해제 실패: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -125,6 +148,7 @@ class RVAdapter(
                             .add(bookmark)
                             .addOnSuccessListener {
                                 Toast.makeText(context, "북마크에 저장됨", Toast.LENGTH_SHORT).show()
+                                bookmarkButton.setImageResource(R.drawable.bookmarkon)  // 북마크된 아이콘으로 변경
                             }
                             .addOnFailureListener { e ->
                                 Toast.makeText(context, "북마크 저장 실패: ${e.message}", Toast.LENGTH_SHORT).show()
