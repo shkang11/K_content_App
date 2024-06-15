@@ -118,20 +118,6 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
             startActivity(intent)
         }
 
-        // 퀴즈설명으로 넘어가는 이미지 버튼 //홈
-        val quizButton = view.findViewById<ImageButton>(R.id.quizButton)
-        quizButton.setOnClickListener {
-            val intent = Intent(activity, GameDescriptionActivity::class.java)
-            startActivity(intent)
-        }
-
-        // 이벤트 버튼 ApplyActivity로 넘어가는
-        val eventButton = view.findViewById<ImageButton>(R.id.eventButton)
-        eventButton.setOnClickListener {
-            val intent = Intent(activity, ApplyActivity::class.java)
-            startActivity(intent)
-        } //
-
         return view
     }
 
