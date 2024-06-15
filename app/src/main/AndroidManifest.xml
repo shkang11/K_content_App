@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.K_content_App"
         tools:targetApi="31">
+
         <activity
             android:name=".AnnounceActivity"
             android:exported="false" />
@@ -39,7 +40,9 @@
         <activity
             android:name=".DramaDetailActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".MainHomeActivity"
+            android:exported="false" />
         <activity
             android:name=".Nav_mainActivity"
             android:exported="false" />
@@ -78,9 +81,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-
         <receiver android:name=".MyBroadcastReceiver" />
-
     </application>
 
 </manifest>

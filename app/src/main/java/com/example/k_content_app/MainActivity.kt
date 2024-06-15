@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 // 로그인 후 메인 액티비티로 이동
-                val intent = Intent(this, Nav_mainActivity::class.java)
+                val intent = Intent(this, MainHomeActivity::class.java) //홈 액티비티로변경
                 startActivity(intent)
                 Log.d(TAG, "User is logged in with uid: ${user.uid}")
             }.addOnFailureListener { e ->

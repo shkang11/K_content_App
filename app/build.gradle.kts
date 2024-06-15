@@ -60,8 +60,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
-    implementation ("com.google.android.material:material:1.8.0")
-    implementation ("androidx.drawerlayout:drawerlayout:1.1.1")
+    implementation("com.google.android.material:material:1.8.0")
+    implementation("androidx.drawerlayout:drawerlayout:1.1.1")
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
@@ -70,6 +70,11 @@ dependencies {
     implementation(libs.tensorflow.lite.metadata)
 
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.fragment.ktx)
+
+    implementation("androidx.viewpager2:viewpager2:1.0.0") //뷰페이저
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
