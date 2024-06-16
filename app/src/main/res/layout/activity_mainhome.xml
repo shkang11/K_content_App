@@ -1,44 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainHomeActivity"
-    android:background="@android:color/white">>
+    android:background="@android:color/white"
+    tools:context=".MainHomeActivity">
 
-    <!-- 상단 레이아웃 -->
-
-    <!-- 중앙 ViewPager2 -->
-
-    <!-- 퀴즈로 넘어가는 이미지 버튼 추가 -->
-
-    <!-- 응모 or 당첨자 발표 버튼을 이벤트 이미지 버튼으로 변경 -->
-
-    <!-- 하단 네비게이션 바 -->
-
-    <TextView
-        android:id="@+id/bennertext"
-        android:layout_width="108dp"
-        android:layout_height="32dp"
-        android:text="추천 콘텐츠"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/homeRecommendVp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topLayout"
-        app:layout_constraintVertical_bias="0.555" />
-
+    <!-- Top Layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -47,7 +22,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@android:color/white"
-            android:contentDescription="목록을 보여줌"
+            android:contentDescription="Show Menu"
             android:src="@drawable/menu_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,8 +30,8 @@
 
         <ImageView
             android:id="@+id/main_logo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="29dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
@@ -64,45 +39,92 @@
             android:src="@drawable/main_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.333"
             app:layout_constraintStart_toEndOf="@id/imageButton5"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Recommended Banner ViewPager2 -->
+
+    <!-- Latest Content Title -->
+
+    <!-- Latest Banner RecyclerView -->
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/homeRecommendVp"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="359dp"
+        android:layout_height="205dp"
+        android:layout_marginBottom="208dp"
         app:layout_constraintBottom_toTopOf="@id/quizButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.4"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/topLayout"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <ImageButton
-        android:id="@+id/quizButton"
+    <TextView
+        android:id="@+id/benner2text"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_marginTop="68dp"
-        android:contentDescription="퀴즈 설명 액티비티로 넘어가는 버튼"
-        android:src="@drawable/quizbtn"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="최신 콘텐츠"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/card_list"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homeRecommendVp" />
 
+    <!-- Quiz Button -->
+
+    <!-- Event Button -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/card_list"
+        android:layout_width="396dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/eventButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/benner2text" />
+
     <ImageButton
-        android:id="@+id/eventButton"
-        android:layout_width="144dp"
-        android:layout_height="95dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:contentDescription="이벤트 버튼"
-        android:src="@drawable/event_icon"
+        android:id="@+id/quizButton"
+        android:layout_width="400dp"
+        android:layout_height="198dp"
+        android:background="@drawable/rounded_benner_image"
+        android:contentDescription="Quiz Button"
+        android:src="@drawable/quiz_button"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quizButton" />
+        app:layout_constraintTop_toBottomOf="@+id/eventButton" />
+
+    <!-- Bottom Navigation Bar -->
+
+    <ImageButton
+        android:id="@+id/eventButton"
+        android:layout_width="139dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="30dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="Event Button"
+        android:src="@drawable/entry"
+        app:layout_constraintBottom_toTopOf="@+id/quizButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeRecommendVp" />
 
     <LinearLayout
         android:id="@+id/bottomNavigationBar"
@@ -110,8 +132,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
             android:id="@+id/btn2"
@@ -119,8 +141,8 @@
             android:layout_height="46dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:src="@drawable/nv_user_icon"
-            android:contentDescription="마이페이지로 이동"/>
+            android:contentDescription="Go to My Page"
+            android:src="@drawable/nv_user_icon" />
 
         <ImageButton
             android:id="@+id/btn3"
@@ -128,8 +150,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:src="@drawable/nv_home_icon"
-            android:contentDescription="홈화면으로 이동"/>
+            android:contentDescription="Go to Home"
+            android:src="@drawable/nv_home_icon" />
 
         <ImageButton
             android:id="@+id/btn1"
@@ -137,8 +159,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:src="@drawable/nv_search_icon"
-            android:contentDescription="검색화면으로 이동"/>
+            android:contentDescription="Go to Search"
+            android:src="@drawable/nv_search_icon" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -76,6 +76,19 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         imageModel = ImageModel(requireContext())
         imageModel.callback = this  // Set the callback
 
+        // btn3가 imagebutton임을 확인하고 참조를 수정
+        val btn3 = view.findViewById<ImageButton>(R.id.btn2)
+        if (btn3 == null) {
+            Log.e("SearchingFragment", "btn2 is null")
+        } else {
+            btn3.setOnClickListener {
+                Log.d("SearchingFragment", "btn2 clicked")
+                it.findNavController().navigate(R.id.action_searchingFragment_to_userInfoFragment)
+            }
+        }
+
+
+
         // btn2가 imagebutton임을 확인하고 참조를 수정
         val btn2 = view.findViewById<ImageButton>(R.id.btn2)
         if (btn2 == null) {

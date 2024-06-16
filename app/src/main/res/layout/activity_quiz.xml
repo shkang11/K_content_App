@@ -24,10 +24,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:textSize="24sp"
-            android:textColor="#000"
             android:gravity="center"
-            android:padding="16dp" />
+            android:padding="16dp"
+            android:textColor="#000"
+            android:textSize="24sp" />
     </FrameLayout>
 
     <LinearLayout
@@ -42,15 +42,16 @@
             android:id="@+id/btnO"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_o"
+            android:layout_marginEnd="50dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginEnd="16dp" />
+            android:src="@drawable/btn_o" />
 
         <ImageButton
             android:id="@+id/btnX"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_x"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:layout_marginStart="50dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/btn_x" />
     </LinearLayout>
 </RelativeLayout>

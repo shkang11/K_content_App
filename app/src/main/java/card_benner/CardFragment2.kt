@@ -1,4 +1,4 @@
-package com.example.k_content_app.benner
+package com.example.k_content_app.card_benner
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.k_content_app.R
 
-class RecommendFragment : Fragment() {
+class CardFragment2 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recommend, container, false)
+        // 카드 2 레이아웃을 인플레이트
+        return inflater.inflate(R.layout.card_2, container, false)
     }
 }

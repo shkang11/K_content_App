@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.k_content_app.benner.RecommendFragment
 import com.example.k_content_app.benner.RecommendFragment02
 import com.example.k_content_app.benner.RecommendFragment03
 import com.example.k_content_app.benner.RecommendViewpagerAdapter
+import com.example.k_content_app.card_benner.CardAdapter
+import com.example.k_content_app.card_benner.card_benner.CardData
 import com.example.k_content_app.databinding.ActivityMainhomeBinding
 
 class MainHomeActivity : AppCompatActivity() {
@@ -20,11 +24,15 @@ class MainHomeActivity : AppCompatActivity() {
     private val sliderHandler = Handler(Looper.getMainLooper())
     private lateinit var sliderThread: Thread
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var cardAdapter: CardAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainhomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Setup recommended banner
         viewPager = binding.homeRecommendVp
         val recommendAdapter = RecommendViewpagerAdapter(this)
 
@@ -38,40 +46,51 @@ class MainHomeActivity : AppCompatActivity() {
         viewPager.adapter = recommendAdapter
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        // 자동 슬라이딩 설정
+        // Auto sliding for recommended banner
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 sliderHandler.removeCallbacks(sliderRunnable)
-                sliderHandler.postDelayed(sliderRunnable, 2000) // 2초 후에 자동 슬라이딩
+                sliderHandler.postDelayed(sliderRunnable, 3000)
             }
         })
 
         startAutoSlide()
 
-        // 퀴즈 설명으로 넘어가는 이미지 버튼
-        val quizButton = binding.quizButton
-        quizButton.setOnClickListener {
+        // Quiz button
+        binding.quizButton.setOnClickListener {
             val intent = Intent(this, GameDescriptionActivity::class.java)
             startActivity(intent)
         }
 
-        // 이벤트 버튼 ApplyActivity로 넘어가는
-        val eventButton = binding.eventButton
-        eventButton.setOnClickListener {
+        // Event button
+        binding.eventButton.setOnClickListener {
             val intent = Intent(this, ApplyActivity::class.java)
             startActivity(intent)
         }
 
-        binding.btn3.setOnClickListener {
-            // 홈 버튼 클릭 동작
-            // 이미 홈 화면이므로 새 액티비티를 시작하지 않음
-        }
+        // Home button
+        binding.btn3.setOnClickListener {}
 
+        // Search button
         binding.btn1.setOnClickListener {
-            // 검색 버튼 클릭 동작
             startActivity(Intent(this, SearchActivity::class.java))
         }
+
+        // Setup RecyclerView for latest banners
+        recyclerView = binding.cardList
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = layoutManager
+
+        val cardDataList = listOf(
+            CardData("Card 1", R.drawable.banner1),
+            CardData("Card 2", R.drawable.banner2),
+            CardData("Card 3", R.drawable.banner3),
+            CardData("Card 4", R.drawable.banner1)
+        )
+
+        cardAdapter = CardAdapter(this, cardDataList)
+        recyclerView.adapter = cardAdapter
     }
 
     private fun startAutoSlide() {
