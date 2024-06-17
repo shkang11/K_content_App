@@ -22,18 +22,16 @@
         android:orientation="horizontal">
 
 
-        <!-- 응모하기 버튼 -->
         <Button
             android:id="@+id/applyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:backgroundTint="#FFC107"
+            android:backgroundTint="#FFDD87"
             android:text="응모하기"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:strokeColor="#FDEA9D" />
+            android:textStyle="bold" />
 
         <!-- 당첨자 발표 버튼 -->
         <Button
@@ -42,7 +40,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginStart="10dp"
-            android:backgroundTint="#FFC107"
+            android:backgroundTint="#C4C4C4"
             android:text="당첨 확인"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
