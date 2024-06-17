@@ -86,7 +86,7 @@ class SearchingFragment : Fragment(), ImageModel.ImageSearchCallback {
         val btn3 = view.findViewById<ImageButton>(R.id.btn3)
         btn3?.setOnClickListener {
             Log.d("SearchingFragment", "btn3 clicked")
-            it.findNavController().navigate(R.id.action_searchingFragment_to_mainHomeActivity)
+            it.findNavController().navigate(R.id.action_searchingFragment_to_mainHomeFragment)
         }
 
         // 이미지 검색 버튼

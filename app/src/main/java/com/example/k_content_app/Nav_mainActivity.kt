@@ -42,7 +42,7 @@ class Nav_mainActivity : AppCompatActivity() {
 
         // btn3 (홈화면 이동)
         binding.btn3.setOnClickListener {
-            navController.navigate(R.id.mainHomeActivity)
+            navController.navigate(R.id.mainHomeFragment)
         }
     }
 }
