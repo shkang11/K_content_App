@@ -6,16 +6,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserInfoFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
 
     <ImageView
-        android:layout_gravity="center"
-        android:id="@+id/img_user"
+        android:id="@+id/imageView2"
+        android:layout_width="44dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/backbutton" />
+
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/userimg" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/img_user"
+            android:layout_width="263dp"
+            android:layout_height="115dp"
+            android:src="@drawable/imguser" />
+
+        <Button
+            android:id="@+id/uploadBtn"
+            android:layout_width="55dp"
+            android:layout_height="31dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="#B5DFE3"
+            android:text="업로드"
+            android:textSize="9dp" />
+    </FrameLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,29 +52,30 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:shadowColor="#8E8E8E"
+            android:shadowDy="15"
+            android:shadowRadius="10"
             android:text="user 1"
             android:textSize="30sp"
-            android:textStyle="bold"
-            android:shadowColor="#8E8E8E"
-            android:shadowRadius="10"
-            android:shadowDy="15" />
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/cash_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/cash_img" />
 
         <TextView
             android:id="@+id/user_cash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
             android:text="100"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="#1462A6"
-            android:layout_marginStart="30dp"/>
-
-        <ImageView
-            android:id="@+id/cash_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/cash"
-            android:layout_marginStart="2dp"/>
+            android:textColor="#818181"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
     <TextView
@@ -62,12 +89,6 @@
         android:shadowRadius="10"
         android:shadowDy="1"
         android:layout_gravity="center"/>
-    <Button
-        android:id="@+id/uploadBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="이미지 업로드"
-        android:background="@drawable/button_border"/>
 
     <LinearLayout
         android:id="@+id/enrollInfo"

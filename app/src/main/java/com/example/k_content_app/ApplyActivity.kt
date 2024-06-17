@@ -34,13 +34,13 @@ class ApplyActivity : AppCompatActivity() {
         // 특정 날짜와 시간을 설정
         val pickWinnerTime = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 10)
-            set(Calendar.MINUTE, 0)
+            set(Calendar.MINUTE, 37)
             set(Calendar.SECOND, 0)
         }
 
         val clearEntriesTime = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 10)
-            set(Calendar.MINUTE, 5)
+            set(Calendar.MINUTE, 40)
             set(Calendar.SECOND, 0)
         }
 
@@ -90,7 +90,7 @@ class ApplyActivity : AppCompatActivity() {
             action = "com.example.k_content_app.PICK_WINNER"
         }
         val pickWinnerPendingIntent = PendingIntent.getBroadcast(
-            this, 0, pickWinnerIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            this, 0, pickWinnerIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE // 플래그 추가
         )
 
         alarmManager.setRepeating(
@@ -104,7 +104,7 @@ class ApplyActivity : AppCompatActivity() {
             action = "com.example.k_content_app.CLEAR_ENTRIES"
         }
         val clearEntriesPendingIntent = PendingIntent.getBroadcast(
-            this, 1, clearEntriesIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            this, 1, clearEntriesIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE // 플래그 추가
         )
 
         alarmManager.setRepeating(

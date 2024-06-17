@@ -4,7 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -23,6 +27,7 @@ class MainHomeActivity : AppCompatActivity() {
     private var currentPage = 0
     private val sliderHandler = Handler(Looper.getMainLooper())
     private lateinit var sliderThread: Thread
+    private lateinit var navController: NavController
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
@@ -32,7 +37,15 @@ class MainHomeActivity : AppCompatActivity() {
         binding = ActivityMainhomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Setup recommended banner
+        // 네비게이션 컨트롤러 설정
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? NavHostFragment
+        navHostFragment?.let {
+            navController = it.navController
+        } ?: run {
+            Log.e("MainHomeActivity", "NavHostFragment not found")
+        }
+
+        // 추천 배너 설정
         viewPager = binding.homeRecommendVp
         val recommendAdapter = RecommendViewpagerAdapter(this)
 
@@ -46,7 +59,7 @@ class MainHomeActivity : AppCompatActivity() {
         viewPager.adapter = recommendAdapter
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        // Auto sliding for recommended banner
+        // 추천 배너 자동 슬라이딩 설정
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -57,27 +70,31 @@ class MainHomeActivity : AppCompatActivity() {
 
         startAutoSlide()
 
-        // Quiz button
+        // 퀴즈 버튼
         binding.quizButton.setOnClickListener {
             val intent = Intent(this, GameDescriptionActivity::class.java)
             startActivity(intent)
         }
 
-        // Event button
+        // 이벤트 버튼
         binding.eventButton.setOnClickListener {
             val intent = Intent(this, ApplyActivity::class.java)
             startActivity(intent)
         }
 
-        // Home button
-        binding.btn3.setOnClickListener {}
-
-        // Search button
-        binding.btn1.setOnClickListener {
-            startActivity(Intent(this, SearchActivity::class.java))
+        // btn2 (마이페이지 이동)
+        binding.btn2.setOnClickListener {
+            Log.d("mainHomeActivity", "btn2 clicked")
+            navController.navigate(R.id.action_mainHomeActivity_to_userInfoFragment)
         }
 
-        // Setup RecyclerView for latest banners
+        // btn1 (검색화면 이동)
+        binding.btn1.setOnClickListener {
+            Log.d("mainHomeActivity", "btn1 clicked")
+            navController.navigate(R.id.action_mainHomeActivity_to_searchingFragment)
+        }
+
+        // 최신 배너를 위한 RecyclerView 설정
         recyclerView = binding.cardList
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = layoutManager
@@ -129,7 +146,7 @@ class MainHomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (::sliderThread.isInitialized && sliderThread.isInterrupted) {
+        if (::sliderThread.isInitialized && !sliderThread.isAlive) {
             startAutoSlide()
         }
     }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <Button
@@ -11,15 +13,17 @@
         android:gravity="center"
         android:text="카메라"
         android:textStyle="bold"
-        />
+        android:textSize="24dp"
+        android:backgroundTint="#B5DFE3"/>
 
     <Button
         android:id="@+id/upload_gallery"
         android:layout_width="match_parent"
         android:layout_height="69dp"
         android:gravity="center"
-        android:text="사진첩"
+        android:text="갤러리"
+        android:textSize="24dp"
         android:textStyle="bold"
-        />
+        android:backgroundTint="#B5DFE3" />
 
 </LinearLayout>

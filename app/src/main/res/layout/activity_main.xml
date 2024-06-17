@@ -31,8 +31,8 @@
         android:textStyle="bold" />
 
     <LinearLayout
-        android:layout_width="322dp"
-        android:layout_height="211dp"
+        android:layout_width="335dp"
+        android:layout_height="212dp"
         android:orientation="vertical">
 
         <EditText
@@ -46,8 +46,8 @@
 
         <EditText
             android:id="@+id/pwd_login"
-            android:layout_width="323dp"
-            android:layout_height="58dp"
+            android:layout_width="322dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:background="@drawable/rounded_edittext_background"

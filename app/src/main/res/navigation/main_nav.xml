@@ -11,23 +11,10 @@
         android:label="fragment_searching"
         tools:layout="@layout/fragment_searching">
         <action
-            android:id="@+id/action_searchingFragment_to_mainHomeActivity2"
-            app:destination="@id/mainHomeActivity" />
-        <action
             android:id="@+id/action_searchingFragment_to_userInfoFragment"
             app:destination="@id/userInfoFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/userInfoFragment"
-        android:name="com.example.k_content_app.UserInfoFragment"
-        android:label="fragment_user_info"
-        tools:layout="@layout/fragment_user_info">
         <action
-            android:id="@+id/action_userInfoFragment_to_searchingFragment"
-            app:destination="@id/searchingFragment" />
-        <action
-            android:id="@+id/action_userInfoFragment_to_mainHomeActivity"
+            android:id="@+id/action_searchingFragment_to_mainHomeActivity"
             app:destination="@id/mainHomeActivity" />
     </fragment>
 
@@ -43,5 +30,18 @@
             android:id="@+id/action_mainHomeActivity_to_userInfoFragment"
             app:destination="@id/userInfoFragment" />
     </activity>
+
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.example.k_content_app.UserInfoFragment"
+        android:label="fragment_user_info"
+        tools:layout="@layout/fragment_user_info">
+        <action
+            android:id="@+id/action_userInfoFragment_to_searchingFragment"
+            app:destination="@id/searchingFragment" />
+        <action
+            android:id="@+id/action_userInfoFragment_to_mainHomeActivity"
+            app:destination="@id/mainHomeActivity" />
+    </fragment>
 
 </navigation>

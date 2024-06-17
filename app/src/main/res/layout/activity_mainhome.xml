@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     android:background="@android:color/white"
     tools:context=".MainHomeActivity">
 
@@ -46,22 +50,18 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Recommended Banner ViewPager2 -->
-
-    <!-- Latest Content Title -->
-
-    <!-- Latest Banner RecyclerView -->
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/homeRecommendVp"
         android:layout_width="359dp"
         android:layout_height="205dp"
-        android:layout_marginBottom="208dp"
-        app:layout_constraintBottom_toTopOf="@id/quizButton"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/benner2text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topLayout"
+        app:layout_constraintTop_toBottomOf="@id/topLayout"
         app:layout_constraintVertical_bias="1.0" />
 
+    <!-- Latest Content Title -->
     <TextView
         android:id="@+id/benner2text"
         android:layout_width="wrap_content"
@@ -69,18 +69,15 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
         android:text="최신 콘텐츠"
-        android:textSize="22sp"
+        android:textSize="22dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/card_list"
+        app:layout_constraintBottom_toTopOf="@id/card_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homeRecommendVp" />
 
-    <!-- Quiz Button -->
-
-    <!-- Event Button -->
-
+    <!-- RecyclerView for latest banners -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/card_list"
         android:layout_width="396dp"
@@ -90,11 +87,26 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/eventButton"
+        app:layout_constraintBottom_toTopOf="@id/eventButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/benner2text" />
+
+    <ImageButton
+        android:id="@+id/eventButton"
+        android:layout_width="139dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginEnd="30dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="Event Button"
+        android:src="@drawable/entry"
+        app:layout_constraintBottom_toTopOf="@id/quizButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_list" />
 
     <ImageButton
         android:id="@+id/quizButton"
@@ -103,29 +115,25 @@
         android:background="@drawable/rounded_benner_image"
         android:contentDescription="Quiz Button"
         android:src="@drawable/quiz_button"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationBar"
+        app:layout_constraintBottom_toTopOf="@id/fragment_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventButton" />
+        app:layout_constraintTop_toBottomOf="@id/eventButton" />
+
+    <!-- Fragment Container View -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:navGraph="@navigation/main_nav"
+        app:defaultNavHost="true"
+        app:layout_constraintTop_toBottomOf="@id/quizButton"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Bottom Navigation Bar -->
-
-    <ImageButton
-        android:id="@+id/eventButton"
-        android:layout_width="139dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="65dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="30dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:contentDescription="Event Button"
-        android:src="@drawable/entry"
-        app:layout_constraintBottom_toTopOf="@+id/quizButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeRecommendVp" />
-
     <LinearLayout
         android:id="@+id/bottomNavigationBar"
         android:layout_width="match_parent"
