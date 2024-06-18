@@ -187,40 +187,56 @@
         android:src="@drawable/userinfoline" />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/userReviewList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/buttonsLayout"
+            android:layout_alignParentTop="true"
             android:layout_margin="20dp"
-            android:nestedScrollingEnabled="true"/>
-
-        <LinearLayout
-            android:id="@+id/buttonsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true">
-
-            <Button
-                android:id="@+id/btn1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="검색하기"/>
-
-            <Button
-                android:id="@+id/btn2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="사용자정보"/>
-
-        </LinearLayout>
-
+            android:layout_marginTop="20dp"
+            android:nestedScrollingEnabled="true" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomNavigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/btn2"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:src="@drawable/nv_user_icon"
+            android:baselineAlignBottom="true"
+            android:contentDescription="마이페이지로 이동" />
+
+        <ImageButton
+            android:id="@+id/btn3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:src="@drawable/nv_home_icon"
+            android:contentDescription="홈화면으로 이동" />
+
+        <ImageButton
+            android:id="@+id/btn1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:src="@drawable/nv_search_icon"
+            android:contentDescription="검색화면으로 이동" />
+    </LinearLayout>
 
 
 </LinearLayout>

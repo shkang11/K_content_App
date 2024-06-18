@@ -81,8 +81,12 @@ class UserInfoFragment : Fragment() {
             )
         }
 
-        view.findViewById<Button>(R.id.btn1)?.setOnClickListener {
+        view.findViewById<ImageButton>(R.id.btn1)?.setOnClickListener{
             it.findNavController().navigate(R.id.action_userInfoFragment_to_searchingFragment)
+        }
+        view.findViewById<ImageButton>(R.id.btn3)?.setOnClickListener{
+            it.findNavController().navigate(R.id.action_userInfoFragment_to_mainHomeFragment)
+
         }
 
         // Display default view
