@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,6 +71,11 @@ class MainHomeFragment : Fragment() {
 
         startAutoSlide()
 
+        // 로그아웃 버튼 클릭 리스너 추가
+        binding.logout.setOnClickListener {
+            logout()
+        }
+
         // 퀴즈 버튼
         binding.quizButton.setOnClickListener {
             val intent = Intent(requireContext(), GameDescriptionActivity::class.java)
@@ -127,6 +133,21 @@ class MainHomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+
+    private fun logout() {
+        // 세션종료
+        requireActivity().getSharedPreferences("user_preferences", 0).edit().clear().apply()
+
+        // Show toast message
+        Toast.makeText(requireContext(), "로그아웃 성공!", Toast.LENGTH_SHORT).show()
+
+        // 로그아웃 화면으로 리다이렉트
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     private fun setPage() {

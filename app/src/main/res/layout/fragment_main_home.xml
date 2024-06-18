@@ -42,11 +42,23 @@
             android:layout_marginBottom="10dp"
             android:src="@drawable/main_logo"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/logout"
             app:layout_constraintHorizontal_bias="0.333"
             app:layout_constraintStart_toEndOf="@id/imageButton5"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
+
+        <ImageButton
+            android:id="@+id/logout"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/white"
+            android:contentDescription="Logout"
+            android:src="@drawable/logout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Recommended Banner ViewPager2 -->

@@ -34,13 +34,13 @@ class ApplyActivity : AppCompatActivity() {
         // 특정 날짜와 시간을 설정
         val pickWinnerTime = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 10)
-            set(Calendar.MINUTE, 37)
+            set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }
 
         val clearEntriesTime = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 10)
-            set(Calendar.MINUTE, 40)
+            set(Calendar.MINUTE, 5)
             set(Calendar.SECOND, 0)
         }
 
