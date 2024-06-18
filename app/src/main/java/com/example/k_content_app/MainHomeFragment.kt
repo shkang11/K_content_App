@@ -21,6 +21,7 @@ import com.example.k_content_app.benner.RecommendViewpagerAdapter
 import com.example.k_content_app.card_benner.CardAdapter
 import com.example.k_content_app.card_benner.card_benner.CardData
 import com.example.k_content_app.databinding.FragmentMainHomeBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class MainHomeFragment : Fragment() {
 
@@ -137,7 +138,9 @@ class MainHomeFragment : Fragment() {
 
 
     private fun logout() {
-        // 세션종료
+        // FirebaseAuth를 사용하여 로그아웃
+        FirebaseAuth.getInstance().signOut()
+        // SharedPreferences 초기화
         requireActivity().getSharedPreferences("user_preferences", 0).edit().clear().apply()
 
         // Show toast message
