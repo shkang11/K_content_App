@@ -106,10 +106,10 @@ class MainHomeFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
 
         val cardDataList = listOf(
-            CardData("Card 1", R.drawable.banner1),
-            CardData("Card 2", R.drawable.banner2),
-            CardData("Card 3", R.drawable.banner3),
-            CardData("Card 4", R.drawable.banner1)
+            CardData("선재업고 튀어", R.drawable.card1),
+            CardData("내 남편과 결혼해줘", R.drawable.card2),
+            CardData("피라미드 게임", R.drawable.card3),
+            CardData("눈물의 여왕", R.drawable.card4)
         )
 
         cardAdapter = CardAdapter(requireContext(), cardDataList)

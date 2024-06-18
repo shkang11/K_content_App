@@ -47,7 +47,7 @@
         <EditText
             android:id="@+id/searchcontent"
             android:layout_width="248dp"
-            android:layout_height="39dp"
+            android:layout_height="40dp"
             android:hint="Search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageSearchBtn"

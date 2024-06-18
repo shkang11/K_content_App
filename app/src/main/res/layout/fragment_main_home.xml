@@ -80,7 +80,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="4dp"
         android:text="최신 콘텐츠"
         android:textSize="20sp"
         android:textStyle="bold"
