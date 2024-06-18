@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -70,7 +71,7 @@ class UserInfoFragment : Fragment() {
             showUserInfoDialog()
         }
 
-        view.findViewById<Button>(R.id.uploadBtn)?.setOnClickListener {
+        view.findViewById<ImageButton>(R.id.uploadBtn)?.setOnClickListener {
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
@@ -309,7 +310,7 @@ class UserInfoFragment : Fragment() {
                     .circleCrop()
                     .into(holder.userImageView)
             } else {
-                holder.userImageView.setImageResource(R.drawable.userimg)
+                holder.userImageView.setImageResource(R.drawable.imguser)
             }
         }
 

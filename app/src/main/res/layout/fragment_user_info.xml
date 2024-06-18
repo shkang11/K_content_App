@@ -29,14 +29,14 @@
             android:layout_height="115dp"
             android:src="@drawable/imguser" />
 
-        <Button
+        <ImageButton
             android:id="@+id/uploadBtn"
             android:layout_width="55dp"
             android:layout_height="31dp"
             android:layout_gravity="center"
             android:layout_marginStart="40dp"
             android:layout_marginTop="40dp"
-            android:backgroundTint="#B5DFE3"
+            android:src="@drawable/up_camera"
             android:text="업로드"
             android:textSize="9dp" />
     </FrameLayout>
