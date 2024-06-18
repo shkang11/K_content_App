@@ -54,7 +54,7 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         // Initialize Bottom Sheet
         val bottomSheet = findViewById<FrameLayout>(R.id.bottom_sheet)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
-            peekHeight = 1500 // 초기 높이를 설정
+            peekHeight = 1000 // 초기 높이를 설정
         }
 
         reviewRecyclerView = findViewById(R.id.reviewRecyclerView)
@@ -289,7 +289,7 @@ class DramaDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     .circleCrop() // 이미지 동그랗게 자르기
                     .into(holder.userImageView)
             } else {
-                holder.userImageView.setImageResource(R.drawable.userimg)
+                holder.userImageView.setImageResource(R.drawable.imguser)
             }
         }
 
