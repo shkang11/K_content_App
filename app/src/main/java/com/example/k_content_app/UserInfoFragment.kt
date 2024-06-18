@@ -156,7 +156,7 @@ class UserInfoFragment : Fragment() {
                         val title = document.getString("title") ?: ""
                         val content = document.getString("content") ?: ""
                         val displayName = document.getString("displayName") ?: ""
-                        val img = document.getString("img") ?: "@drawable/userimg"
+                        val img = document.getString("img") ?: "@drawable/img user"
                         reviews.add(Review(displayName, title, content, img))
                     }
                     reviewAdapter.updateReviews(reviews)
@@ -204,17 +204,17 @@ class UserInfoFragment : Fragment() {
                                     .into(it)
                             }
                         } else {
-                            imageView?.setImageResource(R.drawable.userimg)
+                            imageView?.setImageResource(R.drawable.imguser)
                         }
                     } else {
-                        imageView?.setImageResource(R.drawable.userimg)
+                        imageView?.setImageResource(R.drawable.imguser)
                     }
                 }
                 .addOnFailureListener { exception ->
-                    imageView?.setImageResource(R.drawable.userimg)
+                    imageView?.setImageResource(R.drawable.imguser)
                 }
         } else {
-            imageView?.setImageResource(R.drawable.userimg)
+            imageView?.setImageResource(R.drawable.imguser)
         }
     }
 

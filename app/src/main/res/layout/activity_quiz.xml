@@ -29,10 +29,10 @@
         <TextView
             android:id="@+id/questionText"
             android:layout_width="340dp"
-            android:layout_height="151dp"
+            android:layout_height="189dp"
             android:layout_gravity="center"
-            android:gravity="center"
             android:layout_marginTop="16dp"
+            android:gravity="center"
             android:padding="16dp"
             android:textColor="#000"
             android:textSize="24sp" />
@@ -51,13 +51,15 @@
             android:layout_width="161dp"
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/btn_o" />
+            android:src="@drawable/btn_o"
+            android:contentDescription="정답버튼"/>
 
         <ImageButton
             android:id="@+id/btnX"
             android:layout_width="163dp"
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/btn_x" />
+            android:src="@drawable/btn_x"
+            android:contentDescription="오답버튼"/>
     </LinearLayout>
 </RelativeLayout>
